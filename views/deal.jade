@@ -9,7 +9,11 @@ block content
     .form-group
       label.col-sm-2.control-label(for='name') Name
       .col-sm-4
-        input.form-control(type='text', name='name', id='name', value='#{user.profile.name}')
+        input.form-control(type='text', name='name', id='name', value='#{}')
+    .form-group
+      label.col-sm-2.control-label(for='description') Description
+      .col-sm-4
+        textarea.form-control(name='description', id='description', value='#{}')
     .form-group
       .col-sm-offset-2.col-sm-4
         button.btn.btn.btn-primary(type='submit')
