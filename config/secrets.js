@@ -1,7 +1,7 @@
 /**
  * IMPORTANT  IMPORTANT  IMPORTANT  IMPORTANT  IMPORTANT  IMPORTANT  IMPORTANT
  *
- * You should never commit this file to a public repository on GitHub!
+ * You should never commit this file to a public repository onhero GitHub!
  * All public code on GitHub can be searched, that means anyone can see your
  * uploaded secrets.js file.
  *
@@ -21,7 +21,7 @@
 
 module.exports = {
 
-  db: process.env.MONGODB || 'mongodb://sa:en@ds061621.mongolab.com:61621/heroku_app35782065',
+  db: process.env.MONGODB || 'mongodb://exitnow_ui:${MGDB_PW}@ds061621.mongolab.com:61621/heroku_app35782065',
 
   sessionSecret: process.env.SESSION_SECRET || 'Your Session Secret goes here',
 
