@@ -27,6 +27,7 @@
     "express-validator": "^2.9.0",
     "fbgraph": "^0.3.0",
     "github-api": "^0.10.4",
+    "highcharts": "0.0.8",
     "instagram-node": "^0.5.6",
     "jade": "^1.9.2",
     "lastfm": "^0.9.2",
