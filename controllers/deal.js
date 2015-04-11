@@ -26,11 +26,15 @@ exports.getDeal = function(req, res) {
  */
 exports.postDeal = function(req, res, next) {
   var deal = new Deal({
-    'name': req.body.name || ''
+    'dealData': {
+      'name': req.body.name,
+      'description': req.body.description
+    }
   });
+  console.log(req.body.name);
 
   deal.save(function(err) {
-    if (err) return next(err);
+    if (err) return next(err, deal);
     req.flash('success', { msg: 'Deal has been created.' });
     res.redirect('/dashboard');
   });
