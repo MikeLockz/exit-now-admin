@@ -1,21 +1,49 @@
 extends layout
 
 block content
-  .page-header
-    h3 New Deal
+    .page-header
+        h3 New Deal
 
-  form.form-horizontal(action='/deal/new', method='POST')
+    form.form-horizontal(action='/deal/new', method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
     .form-group
       label.col-sm-2.control-label(for='name') Name
       .col-sm-4
-        input.form-control(type='text', name='name', id='name', value='#{}')
+        input.form-control(type='text', name='name', id='name', value='')
     .form-group
       label.col-sm-2.control-label(for='description') Description
       .col-sm-4
-        textarea.form-control(name='description', id='description', value='#{}')
+        textarea.form-control(name='description', id='description')
+    
+    h3.col-sm-12 Triggers
     .form-group
-      .col-sm-offset-2.col-sm-4
+      label.col-sm-8.control-label(for='roadConditions') When the Road Conditions are
+        select.form-control(name='roadConditions' id='roadConditions')
+          each roadCondition, i in triggers.roadConditions
+            option(value=i) #{roadCondition}
+
+    .form-group
+      label.col-sm-8.control-label(for='traffic') When the Traffic speeds are
+        select.form-control(name='traffic' id='traffic')
+          each trafficSpeed, i in triggers.traffic
+            option(value=i) #{trafficSpeed}
+
+    .form-group
+      label.col-sm-8.control-label(for='distance') When the is about
+        select.form-control(name='distance' id='distance')
+          each measure, i in triggers.distance
+            option(value=i) #{measure}
+
+    h3.col-sm-12 Expires
+    .form-group
+      label.col-sm-4.control-label(for='dateExpires') Expires on
+        input.col-sm-8.form-control(type='date', name='dateExpires', id='dateExpires')
+    .form-group
+      label.col-sm-4.control-label(for='maxCoupon') # of deals available
+        input.col-sm-8.form-control(type='number', name='maxCoupon', id='maxCoupon')
+
+    .form-group
+      .col-sm-12
         button.btn.btn.btn-primary(type='submit')
           i.fa.fa-pencil
           | Create Deal
