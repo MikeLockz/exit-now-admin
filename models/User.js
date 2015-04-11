@@ -5,22 +5,17 @@ var mongoose = require('mongoose');
 var userSchema = new mongoose.Schema({
   email: { type: String, unique: true, lowercase: true },
   password: String,
-
   facebook: String,
-  twitter: String,
-  google: String,
-  github: String,
-  linkedin: String,
-  tokens: Array,
-
   profile: {
-    name: { type: String, default: '' },
-    gender: { type: String, default: '' },
-    location: { type: String, default: '' },
-    website: { type: String, default: '' },
-    picture: { type: String, default: '' }
+    businessName: { type: String, default: '' },
+    description: { type: String, default: '' },
+    address: { type: String, default: '' },
+    city: { type: String, default: '' },
+    state:{ type: String, default:'' },
+    zip:{ type: Number,deault:''},
+    latlon:{ type: Array,default:[]},
+    logoUrl:{ type: String, default: '' }
   },
-
   resetPasswordToken: String,
   resetPasswordExpires: Date
 });
