@@ -4,21 +4,42 @@ var mongoose = require('mongoose');
 
 var myDate = new Date();
 
+var trigger = {
+	'weather': {
+		'condition': ['snow', 'rain', 'sunny', 'storm warning']
+	},
+	'traffic': {
+		'condition': ['green', 'yellow', 'red']
+	},
+	'location': {
+		'distance': [5,10,15,25],
+		'coordinates': [0,0]
+	},
+	'event':[true,false],
+	'trigger': {
+		'name':'',
+		'description': '',
+		'triggerType':[this.weather, this.location, this.traffic, this.event],
+	}
+}
+
 var dealSchema = new mongoose.Schema({
   _id: Number, 
-  userEmail: { type: String,lowercase: true },
+  userId: { type: String,lowercase: true },
   dealData: {
     name: { type: String, default: '' },
     description: { type: String, default: '' },
-    triggers: { type: Array, default: '' },
+    triggers: { type: Array },
     latlon:{ type: Array},
     logoUrl:{ type: String, default: '' }
   },
+  maxCoupon:{ type: Number, default:50 },
   dateAdded:{ type: Date, default: myDate},
   dateUpdated:{ type: Date, default: myDate},
   dateExpires:{ type: Date},
   active:{type: Boolean, default: false}
 });
+
 
 /**
  * Helper method for getting user's gravatar.

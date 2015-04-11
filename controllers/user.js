@@ -6,6 +6,9 @@ var passport = require('passport');
 var User = require('../models/User');
 var secrets = require('../config/secrets');
 
+var Deals = require('../models/User');
+
+
 /**
  * GET /login
  * Login page.
