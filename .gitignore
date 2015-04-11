@@ -19,8 +19,4 @@ node_modules
 *.iml
 .DS_Store
 Thumbs.db
-<<<<<<< HEAD
-/.c9/*.*
-=======
-/.c9
->>>>>>> 27e9c71165df787a809816c9750e29a0702136cc
+/.c9/
