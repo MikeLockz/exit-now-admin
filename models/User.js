@@ -19,8 +19,9 @@ var userSchema = new mongoose.Schema({
     city: { type: String, default: '' },
     state:{ type: String, default:'' },
     zip:{ type: Number,deault:''},
-    latlon:{ type: Array,default:[0,0]},
-    logoUrl:{ type: String, default: '' }
+    latlon:{ type: Array},
+    logoUrl:{ type: String, default: '' },
+    website:{ type: String, default: '' }
   },
   resetPasswordToken: String,
   resetPasswordExpires: Date

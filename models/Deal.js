@@ -4,25 +4,6 @@ var mongoose = require('mongoose');
 
 var myDate = new Date();
 
-var trigger = {
-	'weather': {
-		'condition': ['snow', 'rain', 'sunny', 'storm warning']
-	},
-	'traffic': {
-		'condition': ['green', 'yellow', 'red']
-	},
-	'location': {
-		'distance': [5,10,15,25],
-		'coordinates': [0,0]
-	},
-	'event':[true,false],
-	'trigger': {
-		'name':'',
-		'description': '',
-		'triggerType':[this.weather, this.location, this.traffic, this.event],
-	}
-}
-
 var dealSchema = new mongoose.Schema({
   userId: { type: String,lowercase: true },
   dealData: {
