@@ -11,7 +11,7 @@ var dealSchema = new mongoose.Schema({
     name: { type: String, default: '' },
     description: { type: String, default: '' },
     triggers: { type: Array, default: '' },
-    latlon:{ type: Array,default:[]},
+    latlon:{ type: Array},
     logoUrl:{ type: String, default: '' }
   },
   dateAdded:{ type: Date, default: myDate},
