@@ -1,45 +1,41 @@
 {
-	'deal': {
+	"deal": {
 		
 	}
 }
 
 
 {
-	'trigger': {
-		'name':'',
-		'description': '',
-		'triggerType':[weather, location, traffic, event],
+	"trigger": {
+		"name":"",
+		"description": "",
+		"triggerType":["weather", "location", "traffic", "event"],
 	}
 }
 
-
-
-
 {
-	'weather': {
-		'condition': ['snow', 'rain', 'sunny', 'storm warning']
+	"weather": {
+       "condition": ["slide","closed","blowingSnow","snow","icy","rain", "dry" ]
 	},
-	'traffic': {
-		'condition': ['green', 'yellow', 'red']
+	"traffic": {
+		"condition": ["green", "yellow", "red","black"]
 	},
-	'location': {
-		'distance': miles,
-		'coordinates': [lat, lon]
+	"location": {
+		"distance": miles,
+		"coordinates": [lat, lon]
 	},
-	'event':bool
+	"event":bool
 }
-
-
-'events': [
+			
+"events": [
 	{
-		'name': 'Memorial Day'
-		'start date': 09202015,
-		'end date': 09222015
+		"name": "Memorial Day"
+		"start date": 09202015,
+		"end date": 09222015
 	},
 	{
-		'name': 'Christmas'
-		'start date': 12252015,
-		'end date': 12252015
+		"name": "Christmas"
+		"start date": 12252015,
+		"end date": 12252015
 	}
 ]
