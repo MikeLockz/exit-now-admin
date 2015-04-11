@@ -28,8 +28,8 @@ var homeController = require('./controllers/home');
 var userController = require('./controllers/user');
 var apiController = require('./controllers/api');
 var contactController = require('./controllers/contact');
-var newDealController = require('./controllers/newDeal');
 var dashboardController = require('./controllers/dashboard');
+var dealController = require('./controllers/deal');
 
 /**
  * API keys and Passport configuration.
@@ -111,7 +111,8 @@ app.post('/account/profile', passportConf.isAuthenticated, userController.postUp
 app.post('/account/password', passportConf.isAuthenticated, userController.postUpdatePassword);
 app.post('/account/delete', passportConf.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConf.isAuthenticated, userController.getOauthUnlink);
-app.post('/new-deal', passportConf.isAuthenticated, newDealController.postDeal);
+app.get('/deal', passportConf.isAuthenticated, dealController.getDeal);
+app.post('/deal/new', passportConf.isAuthenticated, dealController.postDeal);
 app.get('/dashboard', passportConf.isAuthenticated, dashboardController.getDashboard);
 
 /**
