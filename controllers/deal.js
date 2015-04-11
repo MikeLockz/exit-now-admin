@@ -28,4 +28,11 @@ exports.postDeal = function(req, res, next) {
   var deal = new Deal({
     'name': req.body.name || ''
   });
+
+  deal.save(function(err) {
+    if (err) return next(err);
+    req.flash('success', { msg: 'Deal has been created.' });
+    res.redirect('/dashboard');
+  });
+
 };
