@@ -24,7 +24,6 @@ var trigger = {
 }
 
 var dealSchema = new mongoose.Schema({
-  _id: Number, 
   userId: { type: String,lowercase: true },
   dealData: {
     name: { type: String, default: '' },
