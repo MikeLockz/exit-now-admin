@@ -1,0 +1,45 @@
+{
+	'deal': {
+		
+	}
+}
+
+
+{
+	'trigger': {
+		'name':'',
+		'description': '',
+		'triggerType':[weather, location, traffic, event],
+	}
+}
+
+
+
+
+{
+	'weather': {
+		'condition': ['snow', 'rain', 'sunny', 'storm warning']
+	},
+	'traffic': {
+		'condition': ['green', 'yellow', 'red']
+	},
+	'location': {
+		'distance': miles,
+		'coordinates': [lat, lon]
+	},
+	'event':bool
+}
+
+
+'events': [
+	{
+		'name': 'Memorial Day'
+		'start date': 09202015,
+		'end date': 09222015
+	},
+	{
+		'name': 'Christmas'
+		'start date': 12252015,
+		'end date': 12252015
+	}
+]
