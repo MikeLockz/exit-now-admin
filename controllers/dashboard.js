@@ -22,4 +22,17 @@ exports.getDashboard = function(req, res) {
 /**
  * GET /api/deals/current
  * Lists current deals
- */
+
+var Deal = require('../models/Deal');
+
+exports.getMyDeals = function(req, res, next) {
+  
+  // Deal.find({})
+  // .where('userId').equals(req.user.email)
+  // .exec(function (err, deals) {
+  //   res.send(deals);
+  // });
+};
+
+console.log(exports.getMyDeals());
+
