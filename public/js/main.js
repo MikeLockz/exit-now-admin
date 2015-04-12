@@ -53,10 +53,15 @@ function setChartData(stamp,city){
   titleHtml = (titleHtml+'<option value="'+chartDateDisp+'" class="'+city+'" SELECTED>'+chartDateDisp+'</option>');
   titleHtml = (titleHtml+'<option value="'+nextDateDisp+'" class="'+city+'">'+nextDateDisp+'</option>');
   titleHtml = (titleHtml+'</select> For '+city);
-  titleHtml = (titleHtml+'<input type="hidden" name="usercity" id="usercity" value="'+city+'"></div>');
+  titleHtml = (titleHtml+'<input type="hidden" name="usercity" id="usercity" value="'+city+'">');
 
-  var barHtml = 'AUTO TRIGGER';
-  
+  if(starting==1){
+    var barHtml = '<div id="chartbar"><li style="left:200px;"><a href="/deal">MAKE AUTO TRIGGER &raquo;</a></li>';
+    var barHtml = (barHtml+'<li style="left:550px; width:300px;"><a href="/deal">MAKE AUTO TRIGGER &raquo;</a></li></div></div>');
+      
+  }else{
+    var barHtml = '<div id="chartbar"><li style="left:800px;"><a href="/deal">MAKE AUTO TRIGGER &raquo;</a></li></div></div>';
+  }
   
   barHtml = (barHtml+'-');
   titleHtml = (titleHtml+barHtml);
