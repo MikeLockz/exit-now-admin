@@ -86,6 +86,11 @@ app.use(function(req, res, next) {
   next();
 });
 app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+app.use(function(req, res, next) {
   if (/api/i.test(req.path)) req.session.returnTo = req.path;
   next();
 });
@@ -118,6 +123,7 @@ app.get('/dashboard', passportConf.isAuthenticated, dashboardController.getDashb
 /**
  * API examples routes.
  */
+app.get('/api/deals/current', apiController.getCurrentDeals);
 app.get('/api', apiController.getApi);
 app.get('/api/lastfm', apiController.getLastfm);
 app.get('/api/nyt', apiController.getNewYorkTimes);

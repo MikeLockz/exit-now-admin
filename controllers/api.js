@@ -20,6 +20,7 @@ var lob = require('lob')(secrets.lob.apiKey);
 var ig = require('instagram-node').instagram();
 var Y = require('yui/yql');
 var _ = require('lodash');
+var Deal = require('../models/Deal');
 
 /**
  * GET /api
@@ -28,6 +29,27 @@ var _ = require('lodash');
 exports.getApi = function(req, res) {
   res.render('api/index', {
     title: 'API Examples'
+  });
+};
+
+/**
+ * GET /api/deals/current
+ * Lists current deals
+ */
+exports.getCurrentDeals = function(req, res, next) {
+  Deal.find({})
+  .where('active').equals(true)
+  .exec(function (err, deals) {
+    res.send(deals);
+  });
+};
+
+exports.getMyDeals = function(req, res, next) {
+  Deal.find({})
+  .where('userId').equals(req.user.email)
+  .exec(function (err, deals) {
+       console.log(exports.getMyDeals());
+    res.send(deals);
   });
 };
 

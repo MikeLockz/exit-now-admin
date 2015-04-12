@@ -120,20 +120,21 @@ exports.postUpdateProfile = function(req, res, next) {
   User.findById(req.user.id, function(err, user) {
     if (err) return next(err);
     user.email = req.body.email || '';
-    user.profile.businessName = req.body.businessName || '';
+    user.profile.businessName = req.body.name || '';
     user.profile.desc = req.body.desc || '';
-    user.profile.latlon[0] = req.body.latlon[0] || '';
-    user.profile.latlon[1] = req.body.latlon[1] || '';
+        user.profile.lat = (req.body.lat*1);
+        user.profile.lon = (req.body.lon*1);
     user.profile.address = req.body.address || '';
     user.profile.city = req.body.city || '';
     user.profile.state = req.body.state || '';
     user.profile.zip = req.body.zip || '';
+    user.profile.website = req.body.website || '';
 
     user.save(function(err) {
       if (err) return next(err);
       req.flash('success', { msg: 'Profile information updated.' });
       res.redirect('/account');
-    });
+    }); console.log(user);
   });
 };
 
