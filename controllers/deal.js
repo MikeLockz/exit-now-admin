@@ -69,14 +69,12 @@ exports.postDeal = function(req, res, next) {
       'name': req.body.name,
       'description': req.body.description,
       'triggers': {
-        'roadConditions': req.body.weather,
+        'roadConditions': req.body.roadConditions,
         'traffic': req.body.traffic,
         'distance': req.body.distance
       },
-      'latlon':{
-         'lat': req.body.lat, 
-         'lon': req.body.lon
-      },
+     'lat': req.body.lat, 
+     'lon': req.body.lon,
     },
     'dateExpires': req.body.dateExpires,
     'dateAdded': req.body.dateAdded,

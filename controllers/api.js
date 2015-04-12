@@ -45,6 +45,7 @@ exports.getCurrentDeals = function(req, res, next) {
 };
 
 
+
 /**
  * GET /api/foursquare
  * Foursquare API example.
