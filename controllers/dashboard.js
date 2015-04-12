@@ -38,13 +38,14 @@ var triggers = {
 }
 
 
-
-var list = {1:1};
+/**
+ * GET /api/deals/current
+ * Lists current deals
+ */
+var Deal = require('../models/Deal');
 
 exports.getDashboard = function(req, res) {
   res.render('dashboard', {
     title: 'Dashboard',
-    dealList: list,
   });
 };
-
