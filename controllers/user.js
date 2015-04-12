@@ -130,13 +130,11 @@ exports.postUpdateProfile = function(req, res, next) {
     user.profile.zip = req.body.zip || '';
     user.profile.website = req.body.website || '';
 
-               console.log(user);
-
     user.save(function(err) {
       if (err) return next(err);
       req.flash('success', { msg: 'Profile information updated.' });
       res.redirect('/account');
-    });
+    }); console.log(user);
   });
 };
 
