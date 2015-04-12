@@ -18,8 +18,9 @@ var userSchema = new mongoose.Schema({
     address: { type: String, default: '' },
     city: { type: String, default: '' },
     state:{ type: String, default:'' },
-    zip:{ type: Number,deault:''},
-    latlon:{ type: Array},
+    zip:{ type: Number,default:''},
+    lat:{ type: Number, default:''},
+    lon:{ type: Number, default:''},
     logoUrl:{ type: String, default: '' },
     website:{ type: String, default: '' }
   },
