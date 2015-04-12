@@ -3,7 +3,9 @@ extends layout
 block content
 	h1 Dashboard
 
-	div#container(style="min-width: 500px; height: 500px; margin: 0 auto")
+	div#container(style="min-width: 500px; height: 400px; margin: 0 auto")
 
-	h2 Active Deals
+	h2 My Active Deals
 	
+	div#dealview(style="min-width: 500px; height: 600px; margin: 0 auto")
+	input#token(type='hidden', name='_csrf', value=_csrf)

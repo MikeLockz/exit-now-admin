@@ -51,9 +51,6 @@ exports.getDeal = function(req, res) {
   res.render('deal', {
     title: 'deal',
     triggers: triggers,
-    fs: { getChild:function(trigger){
-      return trigger.children
-    }}
   });
 };
 
@@ -90,3 +87,13 @@ exports.postDeal = function(req, res, next) {
 
 };
 
+
+/**
+ * POST /deal/delete
+ * Delete user account.
+ */
+exports.postDeleteDeal = function(req, res, next) {
+  Deal.remove({ _id: req.dealId }, function(err) {
+    if (err) return next(err);
+  });
+};

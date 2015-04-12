@@ -44,14 +44,32 @@ exports.getCurrentDeals = function(req, res, next) {
   });
 };
 
-exports.getMyDeals = function(req, res, next) {
+
+/**
+ * GET /api/deals/foruser
+ * Lists current deals
+ */
+exports.getUserDeals = function(req, res, next) {
   Deal.find({})
   .where('userId').equals(req.user.email)
   .exec(function (err, deals) {
-       console.log(exports.getMyDeals());
     res.send(deals);
   });
 };
+
+/**
+ * POST /deal/delete
+ * Delete user account.
+ */
+exports.postDeleteDeals = function(req, res, next) {
+ if(req.body.dealId){  
+  Deal.remove({ _id: req.body.dealId }, function(err) {
+    if (err) return next(err);
+  });
+ }
+};
+
+
 
 /**
  * GET /api/foursquare
