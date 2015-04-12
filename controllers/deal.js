@@ -62,6 +62,7 @@ exports.getDeal = function(req, res) {
  * New deal.
  */
 exports.postDeal = function(req, res, next) {
+  console.log(deal);
   var deal = new Deal({
     'dealData': {
       'name': req.body.name,
@@ -77,7 +78,7 @@ exports.postDeal = function(req, res, next) {
     'dateAdded': req.body.dateAdded,
     'maxCoupon': req.body.maxCoupon
   });
-  console.log(req.body.name);
+  console.log(deal);
 
   deal.save(function(err) {
     if (err) return next(err, deal);

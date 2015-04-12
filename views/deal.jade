@@ -1,10 +1,10 @@
 extends layout
 
 block content
-    .page-header
-        h3 New Deal
+  .page-header
+    h3 New Deal
 
-    form.form-horizontal(action='/deal/new', method='POST')
+  form.form-horizontal(action='/deal/new', method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
     .form-group
       label.col-sm-2.control-label(for='name') Name
@@ -14,36 +14,38 @@ block content
       label.col-sm-2.control-label(for='description') Description
       .col-sm-4
         textarea.form-control(name='description', id='description')
-    
-    h3.col-sm-12 Triggers
+
+    legend Triggers
     .form-group
-      label.col-sm-8.control-label(for='roadConditions') When the Road Conditions are
+      .col-sm-4 When the Road Conditions are
         select.form-control(name='roadConditions' id='roadConditions')
           each roadCondition, i in triggers.roadConditions
             option(value=i) #{roadCondition}
-
     .form-group
-      label.col-sm-8.control-label(for='traffic') When the Traffic speeds are
+      .col-sm-4 When the Traffic speeds are
         select.form-control(name='traffic' id='traffic')
           each trafficSpeed, i in triggers.traffic
             option(value=i) #{trafficSpeed}
 
     .form-group
-      label.col-sm-8.control-label(for='distance') When the is about
+      .col-sm-4 When the is about
         select.form-control(name='distance' id='distance')
           each measure, i in triggers.distance
             option(value=i) #{measure}
 
-    h3.col-sm-12 Expires
+    legend Expires
     .form-group
-      label.col-sm-4.control-label(for='dateExpires') Expires on
-        input.col-sm-8.form-control(type='date', name='dateExpires', id='dateExpires')
+      label.col-sm-2.control-label(for='dateExpires') Expires
+      .col-sm-4
+        input.form-control(type='date', name='dateExpires', id='dateExpires', value='')
     .form-group
-      label.col-sm-4.control-label(for='maxCoupon') # of deals available
-        input.col-sm-8.form-control(type='number', name='maxCoupon', id='maxCoupon')
+      label.col-sm-2.control-label(for='maxCoupon') # of deals available
+      .col-sm-4
+        input.form-control(type='number', name='maxCoupon', id='maxCoupon', value='')
+
 
     .form-group
       .col-sm-12
-        button.btn.btn.btn-primary(type='submit')
+        button.btn.btn-primary(type='submit')
           i.fa.fa-pencil
           | Create Deal
