@@ -44,7 +44,14 @@ exports.getCurrentDeals = function(req, res, next) {
   });
 };
 
-
+exports.getMyDeals = function(req, res, next) {
+  Deal.find({})
+  .where('userId').equals(req.user.email)
+  .exec(function (err, deals) {
+       console.log(exports.getMyDeals());
+    res.send(deals);
+  });
+};
 
 /**
  * GET /api/foursquare
