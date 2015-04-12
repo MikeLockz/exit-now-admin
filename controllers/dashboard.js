@@ -27,11 +27,12 @@ exports.getDashboard = function(req, res) {
 var Deal = require('../models/Deal');
 
 exports.getMyDeals = function(req, res, next) {
-  Deal.find({})
-  .where('userId').equals(this.user.email)
-  .exec(function (err, deals) {
-    res.send(deals);
-  });
+  
+  // Deal.find({})
+  // .where('userId').equals(req.user.email)
+  // .exec(function (err, deals) {
+  //   res.send(deals);
+  // });
 };
 
 console.log(exports.getMyDeals());
