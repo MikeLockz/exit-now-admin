@@ -42,15 +42,19 @@ var dealSchema = new mongoose.Schema({
   dealData: {
     name: { type: String, default: '' },
     description: { type: String, default: '' },
-    triggers: { type: Array },
-    latlon:{ type: Array},
-    logoUrl:{ type: String, default: '' }
+    triggers: { 
+        roadConditions: { type: String, default:''},
+        traffic: { type: String, default:''},
+        distance: { type: String, default:''}
+    },
+    lat:{ type: Number},
+    lon:{ type: Number},
   },
   maxCoupon:{ type: Number, default:50 },
   dateAdded:{ type: Date, default: myDate},
   dateUpdated:{ type: Date, default: myDate},
   dateExpires:{ type: Date},
-  active:{type: Boolean, default: false}
+  active:{type: Boolean, default: true}
 });
 
 
