@@ -3,7 +3,6 @@ extends ../layout
 block content
   .page-header
     h3 Profile Information
-
   form.form-horizontal(action='/account/profile', method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
     .form-group
@@ -11,22 +10,36 @@ block content
       .col-sm-4
         input.form-control(type='email', name='email', id='email', value='#{user.email}')
     .form-group
-      label.col-sm-2.control-label(for='name') Name
+      label.col-sm-2.control-label(for='name') Business Name
       .col-sm-4
-        input.form-control(type='text', name='name', id='name', value='#{user.profile.name}')
+        input.form-control(type='text', name='name', id='name', value='#{user.profile.businessName}')
+    
     .form-group
-      label.col-sm-2.control-label(for='gender') Gender
+      label.col-sm-2.control-label(for='desc') Description
       .col-sm-4
-        label.radio.col-sm-4
-          input(type='radio', checked=user.profile.gender=='male', name='gender', value='male', data-toggle='radio')
-          span Male
-        label.radio.col-sm-4
-          input(type='radio', checked=user.profile.gender=='female', name='gender', value='female', data-toggle='radio')
-          span Female
+        input.form-control(type='text', name='desc', id='desc', value='#{user.profile.desc}')
     .form-group
-      label.col-sm-2.control-label(for='location') Location
+      label.col-sm-2.control-label(for='address') Street Address
       .col-sm-4
-        input.form-control(type='text', name='location', id='location', value='#{user.profile.location}')
+        input.form-control(type='text', name='address', id='address', value='#{user.profile.address}')
+    .form-group
+      label.col-sm-2.control-label(for='city') City
+      .col-sm-4
+        input.form-control(type='text', name='city', id='city', value='#{user.profile.city}')
+    .form-group
+      label.col-sm-2.control-label(for='state') State
+      .col-sm-4
+        input.form-control(type='text', name='state', id='state', value='#{user.profile.state}')
+    .form-group
+      label.col-sm-2.control-label(for='zip') Zip
+      .col-sm-4
+        input.form-control(type='text', name='zip', id='zip', value='#{user.profile.zip}')
+    .form-group
+      label.col-sm-2.control-label(for='latlon') Location(Lat/Lon)
+      .col-sm-4
+        input.form-control(type='text', name='lat', id='lat', value='#{user.profile.latlon[0]}')
+      .col-sm-4
+        input.form-control(type='text', name='lon', id='lon', value='#{user.profile.latlon[1]}')
     .form-group
       label.col-sm-2.control-label(for='website') Website
       .col-sm-4

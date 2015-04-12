@@ -6,15 +6,22 @@ var userSchema = new mongoose.Schema({
   email: { type: String, unique: true, lowercase: true },
   password: String,
   facebook: String,
+  twitter: String,
+  google: String,
+  github: String,
+  instagram: String,
+  linkedin: String,
+  tokens: Array,
   profile: {
     businessName: { type: String, default: '' },
-    description: { type: String, default: '' },
+    desc: { type: String, default: '' },
     address: { type: String, default: '' },
     city: { type: String, default: '' },
     state:{ type: String, default:'' },
     zip:{ type: Number,deault:''},
-    latlon:{ type: Array,default:[]},
-    logoUrl:{ type: String, default: '' }
+    latlon:{ type: Array},
+    logoUrl:{ type: String, default: '' },
+    website:{ type: String, default: '' }
   },
   resetPasswordToken: String,
   resetPasswordExpires: Date

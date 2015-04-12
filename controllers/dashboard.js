@@ -13,7 +13,7 @@ exports.index = function(req, res) {
  * Dashboard page.
  */
 exports.getDashboard = function(req, res) {
-  res.render('Dashboard', {
+  res.render('dashboard', {
     title: 'Dashboard'
   });
 };

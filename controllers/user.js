@@ -6,9 +6,6 @@ var passport = require('passport');
 var User = require('../models/User');
 var secrets = require('../config/secrets');
 
-var Deals = require('../models/User');
-
-
 /**
  * GET /login
  * Login page.
@@ -65,7 +62,7 @@ exports.logout = function(req, res) {
 exports.getSignup = function(req, res) {
   if (req.user) return res.redirect('/');
   res.render('account/signup', {
-    title: 'Create Account'
+    title: 'Create New Business Account'
   });
 };
 
@@ -123,16 +120,21 @@ exports.postUpdateProfile = function(req, res, next) {
   User.findById(req.user.id, function(err, user) {
     if (err) return next(err);
     user.email = req.body.email || '';
-    user.profile.name = req.body.name || '';
-    user.profile.gender = req.body.gender || '';
-    user.profile.location = req.body.location || '';
+    user.profile.businessName = req.body.name || '';
+    user.profile.desc = req.body.desc || '';
+        user.profile.latlon[0] = (req.body.lat*1);
+        user.profile.latlon[1] = (req.body.lon*1);
+    user.profile.address = req.body.address || '';
+    user.profile.city = req.body.city || '';
+    user.profile.state = req.body.state || '';
+    user.profile.zip = req.body.zip || '';
     user.profile.website = req.body.website || '';
 
     user.save(function(err) {
       if (err) return next(err);
       req.flash('success', { msg: 'Profile information updated.' });
       res.redirect('/account');
-    });
+    }); console.log(user);
   });
 };
 
