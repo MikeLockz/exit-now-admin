@@ -1,48 +1,50 @@
-//ur HackDemo! 		
-var triggers = {
-  'roadConditions': {
-    '0':'Slide',
-    '1':'Closed',
-    '2':'Blowing Snow',
-    '3':'Icy',
-    '4':'Icy Spots',
-    '5':'Snow',
-    '6':'Snow Packed',
-    '7':'Snow Packed Icy Spots',
-    '8':'Poor Visibility',
-    '9':'High Wind',
-    '10':'Scattered Showers',
-    '11':'Rain',
-    '12':'Wet',
-    '13':'Slushy',
-    '14':'Dry'
-  },
-  'traffic': {
-    '1':'Green - Over 50mph',
-    '2':'Yellow - 25-50mph',
-    '3':'Red - 15-25mph',
-    '4':'Black - 0-15mph'
-  },
-  'distance': {
-    '0':'1 mile',
-    '1':'2 miles',
-    '2':'5 miles',
-    '3':'10 miles',
-  }
-}
-
-
+//our Hack Demo
 function setChartData(stamp,city){
-
-  if(stamp){ stamps = stamp.split("/"); chartDate = new Date(stamps[2],stamps[0],stamps[1]); }else{ var chartDate = new Date(); }
+        
+  if(stamp){ var stamps = stamp.split("/"); var chartDate = new Date(stamps[2],stamps[0],stamps[1]); var starting = 2; }else{ var chartDate = new Date(); var starting = 1; }
   if(!city){ city = 'Breck'; }
+                       
+                       var dataSpeed = new Array();
+                       var dataSpeedTime = new Array();
+                       var dataCond = new Array();
+                       var dataCondTime = new Array();
+                       var i = 0;
+                        for (var key in speeds) {
+                          if(i<60 && starting==1){
+                              
+                             var currentAlgo = (speeds[key].AverageVolume*1);
+                               if(currentAlgo<0){ currentAlgo=1; }
+                             
+                             dataSpeed.push(currentAlgo);
+                             dataSpeedTime.push(key);
+
+                             if(i>8 && i<22){     //simulate snowstorm
+                               calc = i*1.15;        //factoral
+                               dataCond.push(calc*i);
+                             }else{
+                               dataCond.push(10);
+                             }
+                          }else if(i>100 && i<160 && starting==2){
+
+                             var currentAlgo = (speeds[key].AverageVolume*1);
+                               if(currentAlgo<0){ currentAlgo=1; }
+                             
+                             dataSpeed.push(currentAlgo);
+                             dataSpeedTime.push(key);
+
+                             dataCond.push(10);
+                          }
+                          i++;
+
+                        }
+
 
   var nowDate = new Date();
   var nextDate = new Date();
   var nowDateTime =  (chartDate.getMonth()+'/'+chartDate.getDate()+'/'+chartDate.getFullYear()+' @ '+chartDate.getHours()+':'+chartDate.getMinutes()+':'+chartDate.getSeconds());
   var chartDateDisp = (chartDate.getMonth()+'/'+chartDate.getDate()+'/'+chartDate.getFullYear());
-    if(nowDate.getDate()==chartDate.getDate()){ nextDate.setDate(nextDate.getDate()+30);  } // 30 days out as 2nd example
-    else{ nextDate.setDate(nextDate.getDate()+30); }
+    if(starting==1){ nextDate.setDate(nextDate.getDate()+30);  } // 30 days out as 2nd example
+    else{ nextDate = nowDate; }
   var nextDateDisp = (nextDate.getMonth()+'/'+nextDate.getDate()+'/'+nextDate.getFullYear());
   var chartDateDisp = (chartDate.getMonth()+'/'+chartDate.getDate()+'/'+chartDate.getFullYear());
 
@@ -53,6 +55,12 @@ function setChartData(stamp,city){
   titleHtml = (titleHtml+'</select> For '+city);
   titleHtml = (titleHtml+'<input type="hidden" name="usercity" id="usercity" value="'+city+'"></div>');
 
+  var barHtml = 'AUTO TRIGGER';
+  
+  
+  barHtml = (barHtml+'-');
+  titleHtml = (titleHtml+barHtml);
+
 var chartData = {
 		data: {
 		    dateFormat: 'mm/dd/YYYY'
@@ -60,12 +68,13 @@ var chartData = {
 		chart: {
 			type: 'line',
 			width: 1100,
+			height: 450
 		},
 		title: {
 			text: 'Here are Todays Anticipated Trigger Opportunities<br>'+chartDateDisp+' - '+city
 		},
 		xAxis: {
-			categories: ['Traffic', 'Conditions']
+			categories: ["Time"]
 		},
 		yAxis: {
 			title: {
@@ -73,16 +82,17 @@ var chartData = {
 			}
 		},
 		series: [{
-			name: 'Historical Traffic Trend (coDOT)',
-			data: [1, 1, 1, 3, 7,8,11,111,200,300,300,290,280,270,280,210,200,50,50,20,10,1, 4]
+			name: 'Historical Traffic Trend (cDOT Volume)',
+			data: dataSpeed
 		}, {
-			name: 'Time',
-			data: [5, 7, 3]
+			name: 'Condition Forecast (cDot Forecast)',
+			data: dataCond
 		}]
 	  };
 	  
 
  $('#container').highcharts(chartData).before(titleHtml).fadeIn('700');
+ $('#chartBar').html(barHtml);
     
 }
 
@@ -100,6 +110,7 @@ $('#toggleTheDate').change(function() {
     
      $('#chartTitleBar').hide();
      $('#container').hide();
+     $('#chartBar').hide();
      setChartData(dateSel,city);
 });
 
@@ -179,6 +190,7 @@ function renderDeals(data){
                              else if(data[key].active===false){ html = (html+'unactive'); }
                            html = (html+'"><h2>'+data[key].dealData.name+'</h2>');
                            html = (html+'<span class="small">'+data[key].dealData.description+'</span>');
+                           html = (html+' - <b>By: '+data[key].dealData.businessName+'</b>');
                            html = (html+'<div class="right">');
                            html = (html+'<span class="strong">'+plUsed+' Interests of: '+data[key].maxCoupon+'</span><br>');
                              if(Expire < curDate){ html = (html+'<span class="red"><i><b><u>EXPIRED: '+ExpireDisp+'</u></b></i></span>'); }
