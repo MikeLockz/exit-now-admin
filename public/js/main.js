@@ -63,7 +63,6 @@ function setChartData(stamp,city){
     var barHtml = '<div id="chartbar"><li style="left:800px;"><a href="/deal">MAKE AUTO TRIGGER &raquo;</a></li></div></div>';
   }
   
-  barHtml = (barHtml+'-');
   titleHtml = (titleHtml+barHtml);
 
 var chartData = {
