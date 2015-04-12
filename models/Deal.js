@@ -48,7 +48,8 @@ var dealSchema = new mongoose.Schema({
         distance: { type: String, default:''}
     },
     lat:{ type: Number, default:''},
-    lon:{ type: Number, default:''}
+    lon:{ type: Number, default:''},
+    businessName:{ type: String, default: ''}
   },
   maxCoupon:{ type: Number, default:50 },
   dateAdded:{ type: Date, default: myDate},

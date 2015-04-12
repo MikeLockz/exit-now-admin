@@ -72,6 +72,7 @@ exports.postDeal = function(req, res, next) {
       },
      'lat': req.body.lat, 
      'lon': req.body.lon,
+     'businessName': req.body.businessName,
     },
     'dateExpires': req.body.dateExpires,
     'dateAdded': req.body.dateAdded,

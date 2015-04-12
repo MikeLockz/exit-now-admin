@@ -32,32 +32,48 @@ var triggers = {
 }
 
 
-function setChartData(){
-    
+function setChartData(stamp,city){
 
+  if(stamp){ stamps = stamp.split("/"); chartDate = new Date(stamps[2],stamps[0],stamps[1]); }else{ var chartDate = new Date(); }
+  if(!city){ city = 'Breck'; }
 
+  var nowDate = new Date();
+  var nextDate = new Date();
+  var nowDateTime =  (chartDate.getMonth()+'/'+chartDate.getDate()+'/'+chartDate.getFullYear()+' @ '+chartDate.getHours()+':'+chartDate.getMinutes()+':'+chartDate.getSeconds());
+  var chartDateDisp = (chartDate.getMonth()+'/'+chartDate.getDate()+'/'+chartDate.getFullYear());
+    if(nowDate.getDate()==chartDate.getDate()){ nextDate.setDate(nextDate.getDate()+30);  } // 30 days out as 2nd example
+    else{ nextDate.setDate(nextDate.getDate()+30); }
+  var nextDateDisp = (nextDate.getMonth()+'/'+nextDate.getDate()+'/'+nextDate.getFullYear());
+  var chartDateDisp = (chartDate.getMonth()+'/'+chartDate.getDate()+'/'+chartDate.getFullYear());
 
-
-
-
+  var titleHtml = '<div id="chartTitleBar">Show: ';
+  titleHtml = (titleHtml+'<select id="toggleTheDate" name="toggleDate">');
+  titleHtml = (titleHtml+'<option value="'+chartDateDisp+'" class="'+city+'" SELECTED>'+chartDateDisp+'</option>');
+  titleHtml = (titleHtml+'<option value="'+nextDateDisp+'" class="'+city+'">'+nextDateDisp+'</option>');
+  titleHtml = (titleHtml+'</select> For '+city);
+  titleHtml = (titleHtml+'<input type="hidden" name="usercity" id="usercity" value="'+city+'"></div>');
 
 var chartData = {
+		data: {
+		    dateFormat: 'mm/dd/YYYY'
+		},
 		chart: {
-			type: 'line'
+			type: 'line',
+			width: 1100,
 		},
 		title: {
-			text: 'Todays Anticipated Travel Conditions'
+			text: 'Here are Todays Anticipated Trigger Opportunities<br>'+chartDateDisp+' - '+city
 		},
 		xAxis: {
 			categories: ['Traffic', 'Conditions']
 		},
 		yAxis: {
 			title: {
-				text: 'What to Expect'
+				text: 'Intensity'
 			}
 		},
 		series: [{
-			name: 'traffic',
+			name: 'Historical Traffic Trend (coDOT)',
 			data: [1, 1, 1, 3, 7,8,11,111,200,300,300,290,280,270,280,210,200,50,50,20,10,1, 4]
 		}, {
 			name: 'Time',
@@ -66,7 +82,7 @@ var chartData = {
 	  };
 	  
 
- $('#container').highcharts(chartData);
+ $('#container').highcharts(chartData).before(titleHtml).fadeIn('700');
     
 }
 
@@ -77,6 +93,16 @@ $(document).ready(function() {
   	$(function () {
  
 setChartData();
+
+$('#toggleTheDate').change(function() {
+    var dateSel = $(this).val();
+    var city = $('#usercity').val();
+    
+     $('#chartTitleBar').hide();
+     $('#container').hide();
+     setChartData(dateSel,city);
+});
+
 
  /* Hack to view the current deals and prediction graph admin demo */
    $.ajax(

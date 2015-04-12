@@ -9,6 +9,7 @@ block content
     input(type='hidden', name='userId', value='#{user.email}')
     input(type='hidden', name='lat', value='#{user.profile.lat}')
     input(type='hidden', name='lon', value='#{user.profile.lon}')
+    input(type='hidden', name='businessName', value='#{user.profile.businessName}')
     .form-group
       label.col-sm-2.control-label(for='name') Name
       .col-sm-4
