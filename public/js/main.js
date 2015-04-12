@@ -1,27 +1,5 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-$(document).ready(function() {
-
-  // Place JavaScript code here...
-  	$(function () { 
- 
-  //ur HackDemo! 		
-  var triggers = {
+//ur HackDemo! 		
+var triggers = {
   'roadConditions': {
     '0':'Slide',
     '1':'Closed',
@@ -35,9 +13,9 @@ $(document).ready(function() {
     '9':'High Wind',
     '10':'Scattered Showers',
     '11':'Rain',
-    '11':'Wet',
-    '11':'Slushy',
-    '11':'Dry'
+    '12':'Wet',
+    '13':'Slushy',
+    '14':'Dry'
   },
   'traffic': {
     '1':'Green - Over 50mph',
@@ -52,7 +30,18 @@ $(document).ready(function() {
     '3':'10 miles',
   }
 }
-	  $('#container').highcharts({
+
+
+function setChartData(){
+    
+
+
+
+
+
+
+
+var chartData = {
 		chart: {
 			type: 'line'
 		},
@@ -69,14 +58,25 @@ $(document).ready(function() {
 		},
 		series: [{
 			name: 'traffic',
-			data: [1, 0, 4]
+			data: [1, 1, 1, 3, 7,8,11,111,200,300,300,290,280,270,280,210,200,50,50,20,10,1, 4]
 		}, {
 			name: 'Time',
 			data: [5, 7, 3]
 		}]
-	  });
-	});
+	  };
+	  
 
+ $('#container').highcharts(chartData);
+    
+}
+
+
+$(document).ready(function() {
+
+  // Place JavaScript code here...
+  	$(function () {
+ 
+setChartData();
 
  /* Hack to view the current deals and prediction graph admin demo */
    $.ajax(
@@ -95,7 +95,7 @@ $(document).ready(function() {
         $("#dealview").html('Hello World'+jQuery.parseJSON(data));
    });*/
       
-  $(document).on('click','.removeToggle',function(){ 
+  $(document).on('click','.removeToggle',function(){
   	var currentId=this.id;
   	 $(".removeToggle").each(function(e){
    	    if(currentId==this.id){
@@ -129,15 +129,17 @@ $(document).ready(function() {
 
    	    }
    	
-     });
-  });      
-
+      });
+ 
+    });
+      
+  });
 
 });
 
 
 function renderDeals(data){
-                        var html = '';
+        var html = '';
                         for (var key in data) {
                           if (data.hasOwnProperty(key)) {
                            
@@ -160,5 +162,6 @@ function renderDeals(data){
                           
                           }
                         }
-                     $("#dealview").html(html).fadeIn(500);	
+                     $("#dealview").html(html).fadeIn(500);
+                     
 }
