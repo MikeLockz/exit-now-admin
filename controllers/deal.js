@@ -87,3 +87,16 @@ exports.postDeal = function(req, res, next) {
   });
 
 };
+
+
+/**
+ * GET /deal/current
+ * Lists current deals
+ */
+exports.getCurrentDeals = function(req, res, next) {
+  Deal.find({})
+  .where('active').equals(true)
+  .exec(function (err, deals) {
+    res.send(deals);
+  });
+};

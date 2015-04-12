@@ -113,6 +113,7 @@ app.post('/account/delete', passportConf.isAuthenticated, userController.postDel
 app.get('/account/unlink/:provider', passportConf.isAuthenticated, userController.getOauthUnlink);
 app.get('/deal', passportConf.isAuthenticated, dealController.getDeal);
 app.post('/deal/new', passportConf.isAuthenticated, dealController.postDeal);
+app.get('/deal/currentDeals', dealController.getCurrentDeals);
 app.get('/dashboard', passportConf.isAuthenticated, dashboardController.getDashboard);
 
 /**
