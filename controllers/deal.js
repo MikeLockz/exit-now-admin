@@ -64,6 +64,7 @@ exports.getDeal = function(req, res) {
 exports.postDeal = function(req, res, next) {
   console.log(deal);
   var deal = new Deal({
+    'userId': req.body.userId,
     'dealData': {
       'name': req.body.name,
       'description': req.body.description,
@@ -72,7 +73,10 @@ exports.postDeal = function(req, res, next) {
         'traffic': req.body.traffic,
         'distance': req.body.distance
       },
-      'latlon':[req.body.lat, req.body.lon]
+      'latlon':{
+         'lat': req.body.lat, 
+         'lon': req.body.lon
+      },
     },
     'dateExpires': req.body.dateExpires,
     'dateAdded': req.body.dateAdded,
@@ -86,4 +90,17 @@ exports.postDeal = function(req, res, next) {
     res.redirect('/dashboard');
   });
 
+};
+
+
+/**
+ * GET /deal/current
+ * Lists current deals
+ */
+exports.getCurrentDeals = function(req, res, next) {
+  Deal.find({})
+  .where('active').equals(true)
+  .exec(function (err, deals) {
+    res.send(deals);
+  });
 };
