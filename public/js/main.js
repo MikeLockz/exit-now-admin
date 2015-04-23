@@ -2,7 +2,7 @@
 function setChartData(stamp,city){
         
   if(stamp){ var stamps = stamp.split("/"); var chartDate = new Date(stamps[2],stamps[0],stamps[1]); var starting = 2; }else{ var chartDate = new Date(); var starting = 1; }
-  if(!city){ city = 'Breck'; }
+  if(!city){ city = 'West Vail'; }
                        
                        var dataSpeed = new Array();
                        var dataSpeedTime = new Array();

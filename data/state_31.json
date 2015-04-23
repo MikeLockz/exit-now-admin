@@ -1,0 +1,25 @@
+{ "segmentId":1,
+  "condition":[
+    { "CalculatedDate": "2015-04-23-06:00",
+      "AverageSpeed": 66.44,
+      "AverageVolume": 100,
+      "AverageTrafficFlow": 80,
+      "IsSlowDown": false,
+      "RoadCondition": 8
+    }
+    { "CalculatedDate": "2015-04-23-06:10",
+      "AverageSpeed": 60.14,
+      "AverageVolume": 200,
+      "AverageTrafficFlow": 60,
+      "IsSlowDown": false,
+      "RoadCondition": 9
+    }
+    { "CalculatedDate": "2015-04-23-06:20",
+      "AverageSpeed": 40.44,
+      "AverageVolume": 300,
+      "AverageTrafficFlow": 40,
+      "IsSlowDown": false,
+      "RoadCondition": 9
+    }
+  ]
+}
