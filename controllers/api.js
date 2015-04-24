@@ -86,12 +86,12 @@ exports.postStateData = function(req, res, next) {
   var dir='./data/archive/';
   var data={};
 
-  /* State.remove({}, function(err) {
+  State.remove({}, function(err) {
     if (err) return next(err);
-  }); */
+  });
 
 
-  /* fs.readdir(dir,function(err,files){
+  /*fs.readdir(dir,function(err,files){
     if (err) throw err;
     var c=0;
     files.forEach(function(file){
@@ -132,15 +132,16 @@ exports.postStateData = function(req, res, next) {
         });
     });
     
-          res.send({'message': "SUCCESS Thank you, the record has been added"});
+
     
 }); */
-  
+            
+            res.send({'message': "SUCCESS Thank you, the record has been added"});
 
 
   var Segment = require('../models/Segment');
 
-  fs.readFile('./data/static_speed_segments.json','utf-8',function(err,json){
+  /*fs.readFile('./data/static_speed_segments.json','utf-8',function(err,json){
             if (err) throw err;
 
             
@@ -174,9 +175,13 @@ exports.postStateData = function(req, res, next) {
 
 
               }
+
+
+
+
           res.send({'message': "SUCCESS Thank you, the record has been added "});
 
-  });
+  });*/
 
 
 
