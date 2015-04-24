@@ -13,7 +13,8 @@ var stateSchema = new mongoose.Schema({
        IsSlowDown: { type: Boolean, default: false},
        RoadCondition: { type: Number, default: 8},
        ExpectedTravelTime: { type: Number, default: 0},
-       AverageOccupancy: { type: Number, default: 0}
+       AverageOccupancy: { type: Number, default: 0},
+       AverageVolume: { type: Number, default:0},
   }]
 });
 

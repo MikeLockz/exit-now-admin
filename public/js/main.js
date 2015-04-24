@@ -7,7 +7,7 @@ function setChartData(stamp,city){
       //get Data today
        var state;
        $.ajax({
-                    url: ('/api/state/search?setdate='+(chartDate.getMonth()+1)+'/'+(chartDate.getDate()-1)+'/'+chartDate.getFullYear()),
+                    url: ('/api/state/search?setdate='+(chartDate.getMonth()+1)+'/'+chartDate.getDate()+'/'+chartDate.getFullYear()),
                     method: "GET",
                     success: function(res) {
                        state = res;
