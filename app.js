@@ -130,6 +130,7 @@ app.get('/api/deals/foruser', apiController.getUserDeals);
 app.post('/api/deals/delete', apiController.postDeleteDeals);
 app.post('/api/state/add', apiController.postStateData);
 app.get('/api/state/search', apiController.getStateData);
+app.get('/api/segment/get', apiController.getSegmentData);
 app.get('/api', apiController.getApi);
 app.get('/api/lastfm', apiController.getLastfm);
 app.get('/api/nyt', apiController.getNewYorkTimes);

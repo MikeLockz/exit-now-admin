@@ -91,7 +91,7 @@ exports.postStateData = function(req, res, next) {
   }); */
 
 
-  fs.readdir(dir,function(err,files){
+  /* fs.readdir(dir,function(err,files){
     if (err) throw err;
     var c=0;
     files.forEach(function(file){
@@ -134,8 +134,52 @@ exports.postStateData = function(req, res, next) {
     
           res.send({'message': "SUCCESS Thank you, the record has been added"});
     
-});
+}); */
   
+
+
+  var Segment = require('../models/Segment');
+
+  fs.readFile('./data/static_speed_segments.json','utf-8',function(err,json){
+            if (err) throw err;
+
+            
+            var obj = JSON.parse(json);
+
+              for(var seg in obj){
+               
+               var Coord = new Array();
+               var segmentName = seg.split("PolySegment: ");
+
+                 for(var point in obj[seg].Line.coordinates){
+                    Coord.push({"Lat":obj[seg].Line.coordinates[point][0],"Lon":obj[seg].Line.coordinates[point][1]});
+                    
+                 }
+    
+                var segment = new Segment({
+                  SegmentId: obj[seg].Id,
+                  SegmentName: segmentName[0],
+                    Line:{
+                      Type: obj[seg].Line.type,
+                      Coordinates: Coord
+                    }
+                });
+              
+   segment.save(function(err) {
+     if (err) return next(err, segment);
+   });
+          
+          console.log(JSON.stringify(segment));
+          //console.log(JSON.stringify(Coord));
+
+
+              }
+          res.send({'message': "SUCCESS Thank you, the record has been added "});
+
+  });
+
+
+
 
 };
 
@@ -155,6 +199,21 @@ exports.getStateData = function(req, res, next) {
   });
 };
 
+
+/**
+ * GET /api/state/search
+ * Lists state of consitions
+ */
+exports.getSegmentData = function(req, res, next) {
+  var Segment = require('../models/Segment');
+  var query = require('url').parse(req.url,true).query;
+  var getSegment = query.segment;
+
+  Segment.find({"SegmentId": getSegment})
+  .exec(function (err, data) {
+    res.send(data);
+  });
+};
 
 
 /**
