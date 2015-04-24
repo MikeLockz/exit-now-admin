@@ -121,12 +121,15 @@ app.post('/deal/new', passportConf.isAuthenticated, dealController.postDeal);
 app.get('/dashboard', passportConf.isAuthenticated, dashboardController.getDashboard);
 app.post('/deal/delete', passportConf.isAuthenticated, dealController.postDeleteDeal);
 
+
 /**
  * API examples routes.
  */
 app.get('/api/deals/current', apiController.getCurrentDeals);
 app.get('/api/deals/foruser', apiController.getUserDeals);
 app.post('/api/deals/delete', apiController.postDeleteDeals);
+app.post('/api/state/add', apiController.postStateData);
+app.get('/api/state/search', apiController.getStateData);
 app.get('/api', apiController.getApi);
 app.get('/api/lastfm', apiController.getLastfm);
 app.get('/api/nyt', apiController.getNewYorkTimes);

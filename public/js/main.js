@@ -1,14 +1,39 @@
 //our Hack Demo
 function setChartData(stamp,city){
-        
+  
   if(stamp){ var stamps = stamp.split("/"); var chartDate = new Date(stamps[2],stamps[0],stamps[1]); var starting = 2; }else{ var chartDate = new Date(); var starting = 1; }
-  if(!city){ city = 'West Vail'; }
+  if(!city){ var city = 'West Vail'; var segment = 31; }
+       
+      //get Data today
+       var state;
+       $.ajax({
+                    url: ('/api/state/search?setdate='+(chartDate.getMonth()+1)+'/'+chartDate.getDate()+'/'+chartDate.getFullYear()),
+                    method: "GET",
+                    success: function(res) {
+                       state = res;
                        
                        var dataSpeed = new Array();
                        var dataSpeedTime = new Array();
                        var dataCond = new Array();
                        var dataCondTime = new Array();
+                       var dataState = new Array();
                        var i = 0;
+                        
+                        for(var time in state){
+                            
+                            var timeData = state[time].CalculatedDate.split("T");
+                            var timeOfDay = timeData[1].split(":");
+                            dataSpeedTime.push(timeOfDay[0]+':'+timeOfDay[1]);
+                            
+                            for(var seg in state[time].Conditions){
+                              if(state[time].Conditions[seg].SegmentId==segment){
+                                 dataState.push((state[time].Conditions[seg].AverageOccupancy)*4);
+                              }
+                            }  
+                        }
+
+                        
+                        
                         for (var key in speeds) {
                           if(i<60 && starting==1){
                               
@@ -89,14 +114,23 @@ var chartData = {
 			name: 'Historical Traffic Trend (cDOT Volume)',
 			data: dataSpeed
 		}, {
-			name: 'Condition Forecast (cDot Forecast)',
-			data: dataCond
+			name: 'Condition Forecast (Cars on segment at Time)',
+			data: dataState
 		}]
 	  };
 	  
 
  $('#container').highcharts(chartData).before(titleHtml).fadeIn('700');
  $('#chartBar').html(barHtml);
+
+                    },
+                    error: function (msg, url, line) {
+                       alert('State add error - msg = ' + msg + ', url = ' + url + ', line = ' + line);
+                    }
+                });
+   
+  
+
     
 }
 
@@ -111,11 +145,41 @@ setChartData();
 $('#toggleTheDate').change(function() {
     var dateSel = $(this).val();
     var city = $('#usercity').val();
-    
+         alert('see me');
      $('#chartTitleBar').hide();
      $('#container').hide();
      $('#chartBar').hide();
      setChartData(dateSel,city);
+});
+
+
+
+$('#testAddState').click(function(){
+    
+    var token = $('#token').val();
+                 $.ajax(
+                {
+                    url: ('/api/state/add'),
+                    method: "POST",
+                    data: {
+                     _csrf:token,
+                     SegmentId: 31,
+                     CalculatedDate: '2015-04-15T12:45:30.000-06:10',
+                     AverageSpeed: 66.44,
+                     AverageTrafficFlow: 80,
+                     IsSlowDown: false,
+                     RoadCondition: 8,
+                     ExpectedTravelTime: 3,
+                     AverageOccupancy: 4
+                    },
+                    success: function(res) {
+                       alert('Saved State Data Thanks'+JSON.stringify(res));
+                    },
+                    error: function (msg, url, line) {
+                       alert('State add error - msg = ' + msg + ', url = ' + url + ', line = ' + line);
+                    }
+                });
+
 });
 
 

@@ -20,7 +20,9 @@ var lob = require('lob')(secrets.lob.apiKey);
 var ig = require('instagram-node').instagram();
 var Y = require('yui/yql');
 var _ = require('lodash');
+
 var Deal = require('../models/Deal');
+
 
 /**
  * GET /api
@@ -67,6 +69,90 @@ exports.postDeleteDeals = function(req, res, next) {
     if (err) return next(err);
   });
  }
+};
+
+
+/**
+ * POST /state/add
+ * Add road condition state here.
+ */
+ 
+exports.postStateData = function(req, res, next) {
+
+  var State = require('../models/State');
+  
+  /* read from archive folder */
+  var fs=require('fs');
+  var dir='./data/archive/';
+  var data={};
+
+  /* State.remove({}, function(err) {
+    if (err) return next(err);
+  }); */
+
+
+  fs.readdir(dir,function(err,files){
+    if (err) throw err;
+    var c=0;
+    files.forEach(function(file){
+        c++;
+        fs.readFile(dir+file,'utf-8',function(err,json){
+            if (err) throw err;
+
+            var fileStr = file.split(".json");
+            var fileDate = fileStr[0].replace(/_/g, ":");
+            var obj = JSON.parse(json);
+            var Cond = new Array();
+            
+              for(var segment in obj){
+               Cond.push({
+                 'AverageSpeed': obj[segment].Conditions.AverageSpeed,
+                 'AverageTrafficFlow': obj[segment].Conditions.AverageTrafficFlow,
+                 'IsSlowDown': obj[segment].Conditions.IsSlowDown,
+                 'RoadCondition': 8,
+                 'ExpectedTravelTime': obj[segment].Conditions.ExpectedTravelTime,
+                 'AverageOccupancy': obj[segment].Conditions.AverageOccupancy,
+                 'SegmentId': segment
+               });
+
+              }
+            
+            var state = new State({
+              'CalculatedDate': fileDate,
+              'Conditions': Cond
+            });
+              
+   state.save(function(err) {
+     if (err) return next(err, state);
+   });
+
+  fs.unlink(dir+file);
+
+
+        });
+    });
+    
+          res.send({'message': "SUCCESS Thank you, the record has been added"});
+    
+});
+  
+
+};
+
+/**
+ * GET /api/state/search
+ * Lists state of consitions
+ */
+exports.getStateData = function(req, res, next) {
+  var State = require('../models/State');
+  var query = require('url').parse(req.url,true).query;
+  var dateQuery = query.setdate.split("/");
+
+  State.find({"CalculatedDate": {"$gte": new Date(dateQuery[2],(dateQuery[0]-1), dateQuery[1],01,01,01), "$lt": new Date(dateQuery[2],(dateQuery[0]-1), dateQuery[1],23,59,59)}})
+  .sort({CalculatedDate: 1})
+  .exec(function (err, data) {
+    res.send(data);
+  });
 };
 
 
