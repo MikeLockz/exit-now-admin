@@ -6,8 +6,8 @@ var myDate = new Date();
 
 var stateSchema = new mongoose.Schema({
   CalculatedDate: { type: Date, unique: true, default: myDate},
+  SegmentId: { type: Number, unique: true, default: 0},
   Conditions: [{
-       SegmentId: { type: Number,default: 0 },
        AverageSpeed: { type: Number, default: 0},
        AverageTrafficFlow: { type: Number, default: 0},
        IsSlowDown: { type: Boolean, default: false},

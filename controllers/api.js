@@ -80,21 +80,33 @@ exports.postDeleteDeals = function(req, res, next) {
 exports.postStateData = function(req, res, next) {
 
   var State = require('../models/State');
-  
+  var Segment = require('../models/Segment');  
+
   /* read from archive folder */
   var fs=require('fs');
   var dir='./data/archive/';
   var data={};
 
-  State.remove({}, function(err) {
+
+
+
+
+
+
+
+
+/* TODO: Remove this test to scrape speed 10 min json files dumped in data/archive */
+/*  State.remove({}, function(err) {
     if (err) return next(err);
   });
 
-
-  /*fs.readdir(dir,function(err,files){
+  fs.readdir(dir,function(err,files){
     if (err) throw err;
     var c=0;
     files.forEach(function(file){
+
+
+
         c++;
         fs.readFile(dir+file,'utf-8',function(err,json){
             if (err) throw err;
@@ -112,19 +124,23 @@ exports.postStateData = function(req, res, next) {
                  'RoadCondition': 8,
                  'ExpectedTravelTime': obj[segment].Conditions.ExpectedTravelTime,
                  'AverageOccupancy': obj[segment].Conditions.AverageOccupancy,
-                 'SegmentId': segment
+                 'AverageVolume': 1
                });
 
-              }
-            
             var state = new State({
               'CalculatedDate': fileDate,
+              'SegmentId': segment,
               'Conditions': Cond
             });
               
    state.save(function(err) {
      if (err) return next(err, state);
    });
+
+
+              }
+            
+
 
   fs.unlink(dir+file);
 
@@ -134,13 +150,10 @@ exports.postStateData = function(req, res, next) {
     
 
     
-}); */
-            
-            res.send({'message': "SUCCESS Thank you, the record has been added"});
+});*/
 
 
-  var Segment = require('../models/Segment');
-
+/* TODO: Remove this test to scrape a file for segment json data */
   /*fs.readFile('./data/static_speed_segments.json','utf-8',function(err,json){
             if (err) throw err;
 
@@ -183,7 +196,7 @@ exports.postStateData = function(req, res, next) {
 
   });*/
 
-
+res.send({'message': "SUCCESS Thank you, the record has been added"});
 
 
 };
@@ -196,12 +209,18 @@ exports.getStateData = function(req, res, next) {
   var State = require('../models/State');
   var query = require('url').parse(req.url,true).query;
   var dateQuery = query.setdate.split("/");
+    if(!dateQuery){ dateQuery = '4/24/2015'; }
+  var segmentQuery = new Array(31,32);
+    segmentQuery = query.segment;
+
 
   State.find({"CalculatedDate": {"$gte": new Date(dateQuery[2],(dateQuery[0]-1), dateQuery[1],01,01,01), "$lt": new Date(dateQuery[2],(dateQuery[0]-1), dateQuery[1],23,59,59)}})
+  .where('SegmentId').equals(segmentQuery)
   .sort({CalculatedDate: 1})
   .exec(function (err, data) {
     res.send(data);
   });
+
 };
 
 
