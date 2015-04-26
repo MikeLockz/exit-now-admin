@@ -211,7 +211,7 @@ exports.getStateData = function(req, res, next) {
      "$lt": new Date(dateQuery[2],(dateQuery[0]-1), dateQuery[1],23,59,59)
     }
   })
-  .sort({CalculatedDate: 1})
+  .sort({CalculatedDate: -1})
   .exec(function (err, data) {
     res.send(data);
   });
