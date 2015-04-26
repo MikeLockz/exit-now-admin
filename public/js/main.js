@@ -59,8 +59,6 @@ function setChartData(stamp,city){
                           i++;
 
                         }
-
-
   var nowDate = new Date();
   var nextDate = new Date();
   var nowDateTime =  (chartDate.getMonth()+'/'+chartDate.getDate()+'/'+chartDate.getFullYear()+' @ '+chartDate.getHours()+':'+chartDate.getMinutes()+':'+chartDate.getSeconds());
