@@ -7,7 +7,7 @@ function setChartData(stamp,city){
       //get Data today
        var state;
        $.ajax({
-                    url: ('/api/state/search?setdate='+(chartDate.getMonth()+1)+'/'+(chartDate.getDate()-1)+'/'+chartDate.getFullYear()+'&segments='+segment),
+                    url: ('/api/state/search?setdate='+(chartDate.getMonth()+1)+'/'+chartDate.getDate()+'/'+chartDate.getFullYear()+'&segment='+segment),
                     method: "GET",
                     success: function(res) {
                        state = res;
@@ -24,12 +24,9 @@ function setChartData(stamp,city){
                             var timeData = state[time].CalculatedDate.split("T");
                             var timeOfDay = timeData[1].split(":");
                             dataSpeedTime.push(timeOfDay[0]+':'+timeOfDay[1]);
-                            
-                            for(var seg in state[time].Conditions){
-                              if(state[time].Conditions[seg].SegmentId==segment){
-                                 dataState.push((state[time].Conditions[seg].AverageOccupancy)*4);
-                              }
-                            }  
+
+                            dataState.push((state[time].Conditions[0].AverageVolume)*2);
+                              
                         }
 
                         

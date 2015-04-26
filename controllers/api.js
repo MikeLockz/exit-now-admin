@@ -89,18 +89,12 @@ exports.postStateData = function(req, res, next) {
 
 
 
-
-
-
-
-
-
 /* TODO: Remove this test to scrape speed 10 min json files dumped in data/archive */
-/*  State.remove({}, function(err) {
+  State.remove({}, function(err) {
     if (err) return next(err);
   });
 
-  fs.readdir(dir,function(err,files){
+/*  fs.readdir(dir,function(err,files){
     if (err) throw err;
     var c=0;
     files.forEach(function(file){
@@ -210,12 +204,13 @@ exports.getStateData = function(req, res, next) {
   var query = require('url').parse(req.url,true).query;
   var dateQuery = query.setdate.split("/");
     if(!dateQuery){ dateQuery = '4/24/2015'; }
-  var segmentQuery = new Array(31,32);
     segmentQuery = query.segment;
 
-
-  State.find({"CalculatedDate": {"$gte": new Date(dateQuery[2],(dateQuery[0]-1), dateQuery[1],01,01,01), "$lt": new Date(dateQuery[2],(dateQuery[0]-1), dateQuery[1],23,59,59)}})
-  .where('SegmentId').equals(segmentQuery)
+  State.find({"SegmentId":segmentQuery,"CalculatedDate": {
+     "$gte": new Date(dateQuery[2],(dateQuery[0]-1), dateQuery[1],01,01,01), 
+     "$lt": new Date(dateQuery[2],(dateQuery[0]-1), dateQuery[1],23,59,59)
+    }
+  })
   .sort({CalculatedDate: 1})
   .exec(function (err, data) {
     res.send(data);

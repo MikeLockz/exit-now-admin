@@ -55,7 +55,8 @@ var dealSchema = new mongoose.Schema({
   dateAdded:{ type: Date, default: myDate},
   dateUpdated:{ type: Date, default: myDate},
   dateExpires:{ type: Date},
-  active:{type: Boolean, default: true}
+  active:{type: Boolean, default: true},
+  segmentId:{type: Number, default: 0}
 });
 
 
