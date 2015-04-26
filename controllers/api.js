@@ -226,11 +226,33 @@ exports.getStateData = function(req, res, next) {
 exports.getSegmentData = function(req, res, next) {
   var Segment = require('../models/Segment');
   var query = require('url').parse(req.url,true).query;
-  var getSegment = query.segment;
+  //var getSegment = query.segment;
 
-  Segment.find({"SegmentId": getSegment})
+  Segment.find({})
   .exec(function (err, data) {
-    res.send(data);
+    
+   var parseData = new Array(); 
+    for(i in data){
+     
+
+    var latLon = new Array();
+      for(e in data[i].Line.Coordinates){
+        latLon.push({"lat":data[i].Line.Coordinates[e].Lat,"lon":data[i].Line.Coordinates[e].Lat});
+      }
+
+  var segId = "id"+data[i].SegmentId;
+  var obj = {};
+
+  obj[segId] = {
+      type: "polyline",
+      latlngs: latLon
+  };
+
+  parseData.push(obj);
+
+ }
+
+  res.send(parseData);
   });
 };
 
