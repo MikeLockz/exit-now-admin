@@ -9,6 +9,7 @@ var dealSchema = new mongoose.Schema({
   dealData: {
     name: { type: String, default: '' },
     description: { type: String, default: '' },
+    businessName:{ type: String, default: ''},
     triggers: { 
         roadConditions: { type: String, default:''},
         traffic: { type: String, default:''},
@@ -16,14 +17,18 @@ var dealSchema = new mongoose.Schema({
     },
     lat:{ type: Number, default:''},
     lon:{ type: Number, default:''},
+    onSegments: [{
+      segmentId:{ type: Number, default:0},
+    }],
     businessName:{ type: String, default: ''}
   },
   maxCoupon:{ type: Number, default:50 },
   dateAdded:{ type: Date, default: myDate},
   dateUpdated:{ type: Date, default: myDate},
   dateExpires:{ type: Date},
+  itemsPushed:{ type: Number},
+  itemsConverted:{ type: Number},
   active:{type: Boolean, default: true},
-  segmentId:{type: Number, default: 0}
 });
 
 

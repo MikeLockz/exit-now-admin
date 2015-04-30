@@ -1,9 +1,9 @@
 extends layout
 
 block content
-	h1 Dashboard 
+	h2
 		i.fa.fa-bullhorn
-		| My Alerts
+		| My Currents Alerts
 
 	ul(class="tabs")
 		li(class="tab-link current", data-tab="tab-1")
@@ -15,18 +15,31 @@ block content
 	div#tab-1(class="tab-content current")
 		h3 We have detected congestion in your area:
 		div#getTraffic
-		.col-sm-7
-			span(style="display: block; margin:0;padding:0;width:100%;text-align:right;") 
-				h4
-					b Would you like to trigger:
-		.col-sm-3
-			select.form-control(name='dealTrigger' id='dealTrigger')
-				each deal, i in deals
-					option(value=deal._id) #{deal.dealData.name}
-		.col-sm-2
-			button.btn.btn-primary(type='submit')
-				| Activate 
-				i.fa.fa-long-arrow-right
+		div(style="clear:both;")
+		form.form-horizontal(action='/deal/new', method='POST')
+			input(type='hidden', name='_csrf', value=_csrf)
+			input(type='hidden', name='userId', value='#{user.email}')
+			input(type='hidden', name='lat', value='#{user.profile.lat}')
+			input(type='hidden', name='lon', value='#{user.profile.lon}')
+			input(type='hidden', name='businessName', value='#{user.profile.businessName}')
+			input(type='hidden', name='roadConditions', value='5')
+			input(type='hidden', name='traffic', value='2')
+			input(type='hidden', name='speed', value='2')
+			.col-sm-3
+				span(style="display: block; margin:0;padding:0;width:100%;text-align:right;") 
+					h4
+						b Want like to trigger a Deal!?
+			.col-sm-4
+				input.form-control(type='text', name='name', id='name', list="predeal",value="#{deals[0].dealData.name}")
+				datalist#predeal
+					each deal,i in deals
+						option(value=deal.dealData.name)
+			.col-sm-2
+				input.form-control(type='number', name='maxCoupon', id='maxCoupon', value='100')
+			.col-sm-2
+				button.btn.btn-primary(type='submit')
+					| Set Deal 
+					i.fa.fa-long-arrow-right
 		div(style="clear:both;")
 	div#tab-2(class="tab-content")
 		| Weather alerts under Construction
@@ -36,4 +49,26 @@ block content
 		i.fa.fa-tags
 		| Deals Activity this Week
 	
-	div#dealview(style="min-width: 500px; height: 600px; margin: 0 auto")
+	each deal,i in deals
+		if deal.dateExpires < myDate
+			div(class="dealbar")
+		else
+			div(class="dealbar expired")
+			
+				h2 #{deal.dealData.name}
+					span(class="small")
+						#{deal.dealData.description}
+				| - 
+				b By: #{deal.dealData.businessName}
+				div(class="right")
+					span(class="strong")
+						| Triggers: When Road is (#{deal.dealData.triggers.roadConditions})
+					br
+					span(class="strong")
+						| Shown [#{deal.itemsPushed}] Times With [#{deal.itemsConverted}] Converted of [#{deal.maxCoupon}]
+					br
+					form.form-horizontal(action='/deal/delete', method='POST')
+						input(type='hidden', name='_csrf', value=_csrf)
+						input(type="hidden", name="idRef" value="#{deal._id}")
+						button.btn.btn-primary(type='submit')
+							| Remove Deal

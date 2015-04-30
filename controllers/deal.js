@@ -14,9 +14,16 @@ var triggers = {
     '9':'High Wind',
     '10':'Scattered Showers',
     '11':'Rain',
-    '11':'Wet',
-    '11':'Slushy',
-    '11':'Dry'
+    '12':'Wet',
+    '13':'Slushy',
+    '14':'Dry'
+  },
+  'roadConditionsShort':{
+    '1':'Closed',
+    '5':'Snow',
+    '8':'Poor Visibility',
+    '11':'Rain',
+    '12':'Dry'
   },
   'traffic': {
     '1':'Green - Over 50mph',
@@ -71,7 +78,9 @@ exports.getDeal = function(req, res) {
  * New deal.
  */
 exports.postDeal = function(req, res, next) {
-  console.log(deal);
+  var myDate = new Date();
+  var expir = new Date();
+  var expirDate = expir.setDate(expir.getDate() + 30); //expires in 30 days
   var deal = new Deal({
     'userId': req.body.userId,
     'dealData': {
@@ -88,9 +97,14 @@ exports.postDeal = function(req, res, next) {
     },
     'dateExpires': req.body.dateExpires,
     'dateAdded': req.body.dateAdded,
-    'maxCoupon': req.body.maxCoupon
+    'maxCoupon': req.body.maxCoupon,
+    'dateAdded':myDate,
+    'dateUpdated':myDate,
+    'dateExpires':expirDate,
+    'itemsPushed':1,
+    'itemsConverted':0,
+    'active':true,
   });
-  console.log(deal);
 
   deal.save(function(err) {
     if (err) return next(err, deal);
@@ -106,7 +120,11 @@ exports.postDeal = function(req, res, next) {
  * Delete user account.
  */
 exports.postDeleteDeal = function(req, res, next) {
-  Deal.remove({ _id: req.dealId }, function(err) {
+ if(req.body.idRef){  
+  Deal.remove({ _id: req.body.idRef }, function(err) {
     if (err) return next(err);
+    req.flash('success', { msg: 'Deal '+req.body.name+' has been Deleted.' });
+    res.redirect('/dashboard');
   });
+ }
 };

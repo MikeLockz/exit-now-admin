@@ -1,7 +1,7 @@
 /* Additions for admin console demo */
 
 .dealbar{
-  width: 99%;
+  width: 98%;
   background-color: #E6E6E6;
   display: block;
   margin: 2px 6px 8px 2px;
@@ -11,6 +11,7 @@
   -webkit-border-radius: 5px;
   padding: 4px 6px 4px 8px;
   position: relative;
+  height:95px;
 }
 .dealbar.expired{
    background-color: #DB4D4D;
@@ -35,7 +36,7 @@
 }
 .dealbar span.strong{
   font-weight:800;
-  font-size:24px;
+  font-size:18px;
   color:#000;
 }
 .dealbar h2{
@@ -92,8 +93,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', end
 #chartbar a{
   color:#FFF;
 }
-
-
 		.container2{
 			width: 800px;
 			margin: 0 auto;

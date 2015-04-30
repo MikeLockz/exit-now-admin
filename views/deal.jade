@@ -2,7 +2,9 @@ extends layout
 
 block content
   .page-header
-    h3 List a New Deal:
+    h3 
+      i.fa.fa-tags
+      | List a New Deal:
 
     form.form-horizontal(action='/deal/new', method='POST')
       input(type='hidden', name='_csrf', value=_csrf)
@@ -11,69 +13,36 @@ block content
       input(type='hidden', name='lon', value='#{user.profile.lon}')
       input(type='hidden', name='businessName', value='#{user.profile.businessName}')
 
-      ul(class="tabs")
-        li(class="tab-link", data-tab="tab-1") 
-          i.fa.fa-cutlery
-          | Restaurant
-        li(class="tab-link current", data-tab="tab-2")
-          i.fa.fa-hotel
-          | Hotel
-        li(class="tab-link", data-tab="tab-3")
-          i.fa.fa-calendar
-          | Custom
-      div#tab-1(class="tab-content")
-        .form-group
-          label.col-sm-2.control-label(for='name') Deal Description:
-          .col-sm-10
-            input.form-control(type='text', name='name1', id='name1', list="restaurantTypes",value="#{triggers.dealTypes.restaurant[0]}")
-            datalist#restaurantTypes
-              each dealType, i in triggers.dealTypes.restaurant
-                option(value=dealType)
-      div#tab-2(class="tab-content current")
-        .form-group
-          label.col-sm-2.control-label(for='name') Deal Description:
-          .col-sm-10
-            input.form-control(type='text', name='name2', id='name2', list="hotelTypes",value="#{triggers.dealTypes.hotel[0]}")
-            datalist#hotelTypes
-              each dealType, i in triggers.dealTypes.hotel
-                option(value=dealType)
-      div#tab-3(class="tab-content")
-        .form-group
-          label.col-sm-2.control-label(for='name') Name
-          .col-sm-4
-            input.form-control(type='text', name='name', id='name', value='')
-        .form-group
-          label.col-sm-2.control-label(for='description') Description
-          .col-sm-4
-            textarea.form-control(name='description', id='description')
-        .form-group
-          label.col-sm-2.control-label(for='dateExpires') Expires On
-          .col-sm-4
-            input.form-control(type='date', name='dateExpires', id='dateExpires', value='')
+      .form-group
+        label.col-sm-2.control-label(for='name') Deal Description:
+        .col-sm-3
+          input.form-control(type='text', name='name', id='name', list="restaurantTypes",value="#{triggers.dealTypes.restaurant[0]}")
+          datalist#restaurantTypes
+            each dealType, i in triggers.dealTypes.restaurant
+              option(value=dealType)
 
       legend Select the Triggers
       .form-group
-        .col-sm-4 
-          i.fa.fa-sun-o
-          | When the Road Conditions are
+        label.col-sm-2.control-label(for='roadConditions') Road Conditions:
+        .col-sm-3 
           select.form-control(name='roadConditions' id='roadConditions')
-            each roadCondition, i in triggers.roadConditions
+            each roadCondition, i in triggers.roadConditionsShort
               if roadCondition == "Snow"
                 option(value=i,selected="selected") #{roadCondition}
               else
                 option(value=i) #{roadCondition}
-        .col-sm-4
-          i.fa.fa-tachometer
-          | When the Traffic speeds are
+      .form-group
+        label.col-sm-2.control-label(for='traffic') Speed of Traffic:
+        .col-sm-3
           select.form-control(name='traffic' id='traffic')
             each trafficSpeed, i in triggers.traffic
               if i==2
                 option(value=i,selected="selected") #{trafficSpeed}
               else
                 option(value=i) #{trafficSpeed}
-        .col-sm-4
-          i.fa.fa-truck
-          | When traffic is within
+      .form-group
+        label.col-sm-2.control-label(for='distance') Distance:
+        .col-sm-3
           select.form-control(name='distance' id='distance')
             each measure, i in triggers.distance
               if i==2
@@ -81,13 +50,11 @@ block content
               else
                 option(value=i) #{measure}
 
-      legend Weekly Traffic Estimate
-      div#dealestview(style="margin:8px;")
       .form-group
-        label.col-sm-3.control-label(for='maxCoupon') Max # per Push:
-        .col-sm-3
+        label.col-sm-2.control-label(for='maxCoupon') Max # per Deal:
+        .col-sm-1
           input.form-control(type='number', name='maxCoupon', id='maxCoupon', value='100')
-        .col-sm-3
+        .col-sm-1
           button.btn.btn-primary(type='submit')
             i.fa.fa-pencil
-            | Create Deal
+            | Set Deal
