@@ -1,184 +1,145 @@
 //our Hack Demo
-function setChartData(stamp,city){
-  
-  if(stamp){ var stamps = stamp.split("/"); var chartDate = new Date(stamps[2],stamps[0],stamps[1]); var starting = 2; }else{ var chartDate = new Date(); var starting = 1; }
-  if(!city){ var city = 'West Vail'; var segment = 31; }
-       
-      //get Data today
-       var state;
+function setDealEst(weather,distance,traffic,segment){
+    
+      var myDate = new Date();
+      $('#dealestview').hide();
+      
+      $.ajax({
+        url: ('/api/state/search?setdate='+(myDate.getMonth()+1)+'/'+myDate.getDate()+'/'+myDate.getFullYear()+'&segment='+segment),
+        method: "GET",
+          success: function(res) {
+            //TODO: triggers based on last week
+
+            //dummy display
+            html = ('<blockquote style="color:green;">');
+              html = (html+'Your Area may be <u><b>Yellow - 25-50mph</b></u> in a <b><u>30 Mile radius</u></b> about [<u><b>5</b></u>] times with [<u><b>500+ cars</b></u>] each time<br>');
+              html = (html+'The Forecast is calling for <u><b>Snow</b></u> [<u><b>4</b></u>] times this week<br>');
+              html = (html+'<b>Total Estimated Deals to be pushed: [<u>4,500</u>] over [<u>9</u>] seperate times!</b>');
+            html = (html+'</blockquote>');
+            
+            $('#dealestview').html(html).fadeIn('700');
+          },
+          error: function (msg, url, line) {
+            alert('There was an error estimating traffic today - Please check back later ' + msg + ', url = ' + url + ', line = ' + line);
+          }
+      });
+
+}
+
+
+function getTraffic(segment){
+    if(!segment){ var segment=31; }
+    
+       //get Data today
+       var state = {};
+       var dateRange = '04/26/2015';  //TODO populate date range
        $.ajax({
-                    url: ('/api/state/search?setdate='+(chartDate.getMonth()+1)+'/'+chartDate.getDate()+'/'+chartDate.getFullYear()+'&segment='+segment),
+                    url: ('/api/state/search?setdate='+dateRange+'&segment='+segment),
                     method: "GET",
                     success: function(res) {
                        state = res;
                        
                        var dataSpeed = new Array();
                        var dataSpeedTime = new Array();
-                       var dataCond = new Array();
-                       var dataCondTime = new Array();
                        var dataState = new Array();
-                       var i = 0;
-                        
-                        for(var time in state){
-                            
+
+                       var i=0; for(var time in state){
+                        if(i<=65){
                             var timeData = state[time].CalculatedDate.split("T");
                             var timeOfDay = timeData[1].split(":");
                             dataSpeedTime.push(timeOfDay[0]+':'+timeOfDay[1]);
+                              if(state[time].Conditions[0].AverageVolume<=0){state[time].Conditions[0].AverageVolume=1;}
+                              if(state[time].Conditions[0].AverageSpeed<=0){state[time].Conditions[0].AverageSpeed=1;}
+                            dataState.push((state[time].Conditions[0].AverageVolume)*10);
+                            dataSpeed.push(state[time].Conditions[0].AverageSpeed); 
+                         i++;
+                         }       
+                       }
 
-                            dataState.push((state[time].Conditions[0].AverageVolume)*2);
-                              
-                        }
+                      var chartData = {
+		                data: {
+		                 dateFormat: 'mm/dd/YYYY'
+		                },
+		               chart: {
+			           type: 'line',
+		        	   width: 860,
+			           height: 215
+		               },
+		               title: {
+			            text: 'cDot Traffic Conditions in your area'
+		               },
+		               xAxis: {
+			            labels: {
+                          autoRotation: [-45],
+                          autoRotationLimit: 200,
+			              enabled:false,
+			            },
+			            categories: dataSpeedTime,
+			            title:{
+			                text: 'Time (4am - 9am)',
+			            }
+			           },
+		               yAxis: {
+			             floor:0,
+			             title: {
+				           text: 'Volume of Cars'
+			             }
+		              },
+		              series: [{
+			            name: 'Speed (cDOT Average Mph)',
+			            data: dataSpeed
+		                }, {
+			            name: 'Volume (Cars on road)',
+			            data: dataState
+		              }]
+                    };
 
-                        
-                        
-                        for (var key in speeds) {
-                          if(i<60 && starting==1){
-                              
-                             var currentAlgo = (speeds[key].AverageVolume*1);
-                               if(currentAlgo<0){ currentAlgo=1; }
-                             
-                             dataSpeed.push(currentAlgo);
-                             dataSpeedTime.push(key);
-
-                             if(i>8 && i<22){     //simulate snowstorm
-                               calc = i*1.15;        //factoral
-                               dataCond.push(calc*i);
-                             }else{
-                               dataCond.push(10);
-                             }
-                          }else if(i>100 && i<160 && starting==2){
-
-                             var currentAlgo = (speeds[key].AverageVolume*1);
-                               if(currentAlgo<0){ currentAlgo=1; }
-                             
-                             dataSpeed.push(currentAlgo);
-                             dataSpeedTime.push(key);
-
-                             dataCond.push(10);
-                          }
-                          i++;
-
-                        }
-  var nowDate = new Date();
-  var nextDate = new Date();
-  var nowDateTime =  (chartDate.getMonth()+'/'+chartDate.getDate()+'/'+chartDate.getFullYear()+' @ '+chartDate.getHours()+':'+chartDate.getMinutes()+':'+chartDate.getSeconds());
-  var chartDateDisp = (chartDate.getMonth()+'/'+chartDate.getDate()+'/'+chartDate.getFullYear());
-    if(starting==1){ nextDate.setDate(nextDate.getDate()+30);  } // 30 days out as 2nd example
-    else{ nextDate = nowDate; }
-  var nextDateDisp = (nextDate.getMonth()+'/'+nextDate.getDate()+'/'+nextDate.getFullYear());
-  var chartDateDisp = (chartDate.getMonth()+'/'+chartDate.getDate()+'/'+chartDate.getFullYear());
-
-  var titleHtml = '<div id="chartTitleBar">Show: ';
-  titleHtml = (titleHtml+'<select id="toggleTheDate" name="toggleDate">');
-  titleHtml = (titleHtml+'<option value="'+chartDateDisp+'" class="'+city+'" SELECTED>'+chartDateDisp+'</option>');
-  titleHtml = (titleHtml+'<option value="'+nextDateDisp+'" class="'+city+'">'+nextDateDisp+'</option>');
-  titleHtml = (titleHtml+'</select> For '+city);
-  titleHtml = (titleHtml+'<input type="hidden" name="usercity" id="usercity" value="'+city+'">');
-
-  if(starting==1){
-    var barHtml = '<div id="chartbar"><li style="left:200px;"><a href="/deal">MAKE AUTO TRIGGER &raquo;</a></li>';
-    var barHtml = (barHtml+'<li style="left:550px; width:300px;"><a href="/deal">MAKE AUTO TRIGGER &raquo;</a></li></div></div>');
-      
-  }else{
-    var barHtml = '<div id="chartbar"><li style="left:800px;"><a href="/deal">MAKE AUTO TRIGGER &raquo;</a></li></div></div>';
-  }
-  
-  titleHtml = (titleHtml+barHtml);
-
-var chartData = {
-		data: {
-		    dateFormat: 'mm/dd/YYYY'
-		},
-		chart: {
-			type: 'line',
-			width: 1100,
-			height: 450
-		},
-		title: {
-			text: 'Here are Todays Anticipated Trigger Opportunities<br>'+chartDateDisp+' - '+city
-		},
-		xAxis: {
-			categories: ["Time"]
-		},
-		yAxis: {
-			title: {
-				text: 'Intensity'
-			}
-		},
-		series: [{
-			name: 'Historical Traffic Trend (cDOT Volume)',
-			data: dataSpeed
-		}, {
-			name: 'Condition Forecast (Cars on segment at Time)',
-			data: dataState
-		}]
-	  };
-	  
-
- $('#container').highcharts(chartData).before(titleHtml).fadeIn('700');
- $('#chartBar').html(barHtml);
+                    //show chart
+                    $('#getTraffic').highcharts(chartData).fadeIn('500');
 
                     },
                     error: function (msg, url, line) {
                        alert('State add error - msg = ' + msg + ', url = ' + url + ', line = ' + line);
                     }
-                });
-   
-  
-
+       });   
     
 }
 
 
 $(document).ready(function() {
 
-  // Place JavaScript code here...
-  	$(function () {
- 
-setChartData();
+  //deal type tabs
+	$('ul.tabs li').click(function(){
+		var tab_id = $(this).attr('data-tab');
 
-$('#toggleTheDate').change(function() {
-    var dateSel = $(this).val();
-    var city = $('#usercity').val();
-         alert('see me');
-     $('#chartTitleBar').hide();
-     $('#container').hide();
-     $('#chartBar').hide();
-     setChartData(dateSel,city);
-});
+		$('ul.tabs li').removeClass('current');
+		$('.tab-content').removeClass('current');
 
+		$(this).addClass('current');
+		$("#"+tab_id).addClass('current');
+	});
+	
+  //Estimate traffic for a deals triggers
+    $('#distance').change(function() {
+      setDealEst($('#roadConditions').val(),$('#distance').val(),$('#traffic').val(),31);
+    });
+    $('#traffic').change(function() {
+      setDealEst($('#roadConditions').val(),$('#distance').val(),$('#traffic').val(),31);
+    });
+    $('#roadConditions').change(function() {
+      setDealEst($('#roadConditions').val(),$('#distance').val(),$('#traffic').val(),31);
+    });
 
+    setDealEst($('#roadConditions').val(),$('#distance').val(),$('#traffic').val(),31);
 
-$('#testAddState').click(function(){
     
-    var token = $('#token').val();
-                 $.ajax(
-                {
-                    url: ('/api/state/add'),
-                    method: "POST",
-                    data: {
-                     _csrf:token,
-                     SegmentId: 31,
-                     CalculatedDate: '2015-04-15T12:45:30.000-06:10',
-                     AverageSpeed: 66.44,
-                     AverageTrafficFlow: 80,
-                     IsSlowDown: false,
-                     RoadCondition: 8,
-                     ExpectedTravelTime: 3,
-                     AverageOccupancy: 4
-                    },
-                    success: function(res) {
-                       alert('Saved State Data Thanks'+JSON.stringify(res));
-                    },
-                    error: function (msg, url, line) {
-                       alert('State add error - msg = ' + msg + ', url = ' + url + ', line = ' + line);
-                    }
-                });
-
-});
+  // Show chart for cDOT data    
+    if($('#getTraffic')){
+      getTraffic(31);
+    }
 
 
- /* Hack to view the current deals and prediction graph admin demo */
+   /* Hack to view the current deals and prediction graph admin demo */
    $.ajax(
                 {
                     url: ('/api/deals/foruser'),
@@ -233,8 +194,6 @@ $('#testAddState').click(function(){
  
     });
       
-  });
-
 });
 
 
@@ -255,7 +214,7 @@ function renderDeals(data){
                            html = (html+'<span class="small">'+data[key].dealData.description+'</span>');
                            html = (html+' - <b>By: '+data[key].dealData.businessName+'</b>');
                            html = (html+'<div class="right">');
-                           html = (html+'<span class="strong">'+plUsed+' Interests of: '+data[key].maxCoupon+'</span><br>');
+                           html = (html+'<span class="strong">Shown [4] Times - '+plUsed+' Interests of: '+data[key].maxCoupon+'</span><br>');
                              if(Expire < curDate){ html = (html+'<span class="red"><i><b><u>EXPIRED: '+ExpireDisp+'</u></b></i></span>'); }
                              else{ html = (html+'<i><b><u>Expires: '+ExpireDisp+'</u></b></i>'); }
                            html = (html+'<button id="'+data[key]._id+'_delete" class="removeToggle">Remove This Deal</button>');

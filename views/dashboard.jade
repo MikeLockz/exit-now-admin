@@ -1,14 +1,39 @@
 extends layout
 
 block content
-	h1 Dashboard
-	script(src="/assets/cdot.js")
-	div#container(style="min-width: 500px; height: 400px; margin: 0 auto")
+	h1 Dashboard 
+		i.fa.fa-bullhorn
+		| My Alerts
 
+	ul(class="tabs")
+		li(class="tab-link current", data-tab="tab-1")
+			i.fa.fa-tachometer
+			| 1) New Congestion Reported at #{alerts.dateDisp}
+		li(class="tab-link", data-tab="tab-2")
+			i.fa.fa-sun-o
+			| 2) Snow forecasted tomorrow
+	div#tab-1(class="tab-content current")
+		h3 We have detected congestion in your area:
+		div#getTraffic
+		.col-sm-7
+			span(style="display: block; margin:0;padding:0;width:100%;text-align:right;") 
+				h4
+					b Would you like to trigger:
+		.col-sm-3
+			select.form-control(name='dealTrigger' id='dealTrigger')
+				each deal, i in deals
+					option(value=deal._id) #{deal.dealData.name}
+		.col-sm-2
+			button.btn.btn-primary(type='submit')
+				| Activate 
+				i.fa.fa-long-arrow-right
+		div(style="clear:both;")
+	div#tab-2(class="tab-content")
+		| Weather alerts under Construction
 	
-	h2 My Active Deals
+	br
+	h2
+		i.fa.fa-tags
+		| Deals Activity this Week
 	
 	div#dealview(style="min-width: 500px; height: 600px; margin: 0 auto")
-	input#token(type='hidden', name='_csrf', value=_csrf)
-	div#testAddStateOff(style="background-color:#666;")
-		| Test State

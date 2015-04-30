@@ -25,10 +25,22 @@ var triggers = {
     '4':'Black - 0-15mph'
   },
   'distance': {
-    '0':'1 mile',
-    '1':'2 miles',
-    '2':'5 miles',
-    '3':'10 miles',
+    '0':'10 miles',
+    '1':'20 miles',
+    '2':'30 miles',
+    '3':'50 miles',
+  },
+  'dealTypes':{
+    'hotel':{
+      '0': '50% Off Hotel Room Tonight!',
+      '1': 'Free Dinner with Hotel Stay',
+      '2': '2 for 1 Hotel Rooms Tonight',
+    },
+    'restaurant':{
+      '0': 'FREE Coffee with snack purchase',
+      '1': 'FREE Pizza!',
+      '2': 'FREE Beer',
+    }
   }
 }
 
