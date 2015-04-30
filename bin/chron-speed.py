@@ -24,7 +24,7 @@ def database_put(db_url, table, content_type, data_put):
     request.get_method = lambda: 'PUT'
     return urllib.request.urlopen(request)
 
-client = MongoClient('mongodb://sa:en@ds061621.mongolab.com:61621/heroku_app35782065')
+client = MongoClient('mongodb://exit:m3H10do0C8@localhost:27017/Exit-Now')
 db = client.get_default_database()
 states = db.states
 c = open_url('https://data.cotrip.org/xml/speed_segments.xml', 'GoCo', 'dRAb3p')
