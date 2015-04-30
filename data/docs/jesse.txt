@@ -1,0 +1,60 @@
+
+ 1. Http: Init
+    a. Register socket on server
+    b. Respond to App with socket info so App can set up push
+
+    Tom. This is where the login would go. For now I want to keep is as lightweight as possible.
+
+ 2. Http: Enter Destination
+
+   Jesse. Wheres does the Logic take place, server? App?
+   Tom.   I recommend Option 1) The Server
+
+3. Http: Change Threshold
+   a. Update Go-NoGo
+
+4. Http: Request Deals:
+   a. By Current Location
+      - App will do this on latLng intervals
+      - When App detects that traffic has slowed down or stops
+      - User request
+   b. By a down the road location entered by user
+
+Jesse. Deals now all have (3) triggers and a lat/lon.  Of which I'm assuming the App passes what trigger
+       it is looking for and Server would return active deals that match - but who (Server,App) filters with
+       the proximity/fencing thing? How?
+
+Tom.   The proximity/fencing filtering should start with the server with a larger filter window, but since the App is
+       moving then it will also need to further perform proximity/fencing filtering in a smaller filtering window.
+
+       I need to provide some proximity/fencing libraries and to think about whether this two
+       step process is the way to go.
+
+5. Push: Deal Updates When:
+   a. Business removes deal when over capacity
+   b. Business creates a hot deal - often in response to traffic
+
+6. Push: Always
+   a. Speed Changes
+   b. Condition Changes
+   c. Alerts? - look into
+
+  The schema for conditions is based on this request
+     - Specify time (or fetch last recorded time - Eric's script stores this every 10 mins to db) & segment Id
+     - Get the following fields:        AverageSpeed: { type: Number, default: 0},
+       AverageTrafficFlow: Number
+       IsSlowDown: Boolean
+       RoadCondition: Number (Eric to Map into data based on weather station to segment id lookup
+       TravelTime: Number
+       ExpectedTravelTime: Number
+       AverageOccupancy: Number
+       AverageVolume: Number
+
+Jesse.  So based on our "triggers" that's all we would need, so i'm not sure what you mean by alerts?
+
+Tom.    The alerts are just another CDOT thing thet we can ignore for now.
+
+7. Http: Quit
+   a. On lack of activity
+   b. Quit button?
+   c. Server can reclaim socket
