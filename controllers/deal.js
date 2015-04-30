@@ -84,8 +84,8 @@ exports.postDeal = function(req, res, next) {
   
   //var lat = req.body.lat;
   //var lon = req.body.lon;
-  var lat = 1;
-  var lon = 1;
+  var lat = req.body.lat ? lat : 1;
+  var lon = req.body.lon ? lon : 1;
 
   var deal = new Deal({
     'userId': req.body.userId,
