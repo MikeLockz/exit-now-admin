@@ -22,11 +22,37 @@ var Deal = require('../models/Deal');
 
 exports.getDashboard = function(req, res) {
  
- var deals = {};
+ var deals = {  
+  userId: 0,
+  dealData: {
+    name: '',
+    description: '',
+    businessName:'',
+    triggers: { 
+        roadConditions:'',
+        traffic: '',
+        distance:''
+    },
+    lat:0,
+    lon:0,
+    onSegments: [{
+      segmentId:31,
+    }],
+    businessName:''
+  },
+  maxCoupon:50,
+  dateAdded:'',
+  dateUpdated:'',
+  dateExpires:'',
+  itemsPushed:0,
+  itemsConverted:0,
+  active:1
+};
+
   Deal.find({})
     .where('userId').equals(req.user.email)
     .exec(function (err, data) {
-      deals = data;
+       if(data){ deals = data; }
       res.render('dashboard', {
       title: 'Dashboard',
       alerts:alerts,
