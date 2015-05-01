@@ -82,10 +82,8 @@ exports.postDeal = function(req, res, next) {
   var expir = new Date();
   var expirDate = expir.setDate(expir.getDate() + 30); //expires in 30 days
   
-  //var lat = req.body.lat;
-  //var lon = req.body.lon;
-  var lat = req.body.lat ? lat : 1;
-  var lon = req.body.lon ? lon : 1;
+  var lat = req.body.lat || 1;
+  var lon = req.body.lon || 1;
 
   var deal = new Deal({
     'userId': req.body.userId,

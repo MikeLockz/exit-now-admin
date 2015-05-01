@@ -123,6 +123,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', end
 			background: #E6E6E6;
 			padding: 18px;
 			margin: 0 0 18px 0;
+			position: relative;
 		}
 
 		.tab-content.current{

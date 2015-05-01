@@ -82,9 +82,22 @@ exports.postSignup = function(req, res, next) {
     return res.redirect('/signup');
   }
 
+  //TODO: look up lat/lon for address passed.
+  var lat = 0;
+  var lon = 0;
+
+
   var user = new User({
     email: req.body.email,
-    password: req.body.password
+    password: req.body.password,
+    profile:{
+      businessName: req.body.name,
+      city: req.body.city,
+      address: req.body.address,
+      zip: req.bodyzip,
+      lat: lat,
+      lon: lon
+    }
   });
 
   User.findOne({ email: req.body.email }, function(err, existingUser) {

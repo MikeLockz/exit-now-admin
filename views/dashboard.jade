@@ -14,6 +14,7 @@ block content
 			| 2) Snow forecasted tomorrow
 	div#tab-1(class="tab-content current")
 		h3 We have detected congestion in your area:
+		img(src="./assets/wVailMap.jpg" style="display:block; float: right; right:5px; top:5px; z-index:10; position: absolute; border: 1px solid #F1F1F1; padding:2px; margin:4px; float: right;")
 		div#getTraffic
 		div(style="clear:both;")
 		form.form-horizontal(action='/deal/new', method='POST')
@@ -30,10 +31,14 @@ block content
 					h4
 						b Want like to trigger a Deal!?
 			.col-sm-4
-				input.form-control(type='text', name='name', id='name', list="predeal",value="#{deals[0].dealData.name}")
-				datalist#predeal
-					each deal,i in deals
-						option(value=deal.dealData.name)
+				if deals.length != 0
+					input.form-control(type='text', name='name', id='name', list="predeal",value="#{deals[0].dealData.name}")
+					datalist#predeal
+					if deals.length != 0
+						each deal,i in deals
+							option(value=deal.dealData.name)
+				else
+					input.form-control(type='text', name='name', id='name', placeholder="ex: 50% Off Hotel Stay Tonoght, FREE coffee..",value="")
 			.col-sm-2
 				input.form-control(type='number', name='maxCoupon', id='maxCoupon', value='100')
 			.col-sm-2
@@ -49,26 +54,27 @@ block content
 		i.fa.fa-tags
 		| Deals Activity this Week
 	
-	each deal,i in deals
-		if deal.dateExpires < myDate
-			div(class="dealbar")
-		else
-			div(class="dealbar expired")
-			
-				h2 #{deal.dealData.name}
-					span(class="small")
-						#{deal.dealData.description}
-				| - 
-				b By: #{deal.dealData.businessName}
-				div(class="right")
-					span(class="strong")
-						| Triggers: When Road is (#{deal.dealData.triggers.roadConditions})
-					br
-					span(class="strong")
-						| Shown [#{deal.itemsPushed}] Times With [#{deal.itemsConverted}] Converted of [#{deal.maxCoupon}]
-					br
-					form.form-horizontal(action='/deal/delete', method='POST')
-						input(type='hidden', name='_csrf', value=_csrf)
-						input(type="hidden", name="idRef" value="#{deal._id}")
-						button.btn.btn-primary(type='submit')
-							| Remove Deal
+	if deals.length != 0
+		each deal,i in deals
+			if deal.dateExpires < myDate
+				div(class="dealbar")
+			else
+				div(class="dealbar expired")
+				
+					h2 #{deal.dealData.name}
+						span(class="small")
+							#{deal.dealData.description}
+					| - 
+					b By: #{deal.dealData.businessName}
+					div(class="right")
+						span(class="strong")
+							| Triggers: When Road is (#{deal.dealData.triggers.roadConditions})
+						br
+						span(class="strong")
+							| Shown [#{deal.itemsPushed}] Times With [#{deal.itemsConverted}] Converted of [#{deal.maxCoupon}]
+						br
+						form.form-horizontal(action='/deal/delete', method='POST')
+							input(type='hidden', name='_csrf', value=_csrf)
+							input(type="hidden", name="idRef" value="#{deal._id}")
+							button.btn.btn-primary(type='submit')
+								| Remove Deal
